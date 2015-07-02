@@ -1,6 +1,6 @@
 <?php namespace Ballen\Plexity\Entites;
 
-use Ballen\Plexity\Entites\Collection;
+use Ballen\Collection\Collection;
 
 /**
  * Plexity
@@ -12,7 +12,7 @@ use Ballen\Plexity\Entites\Collection;
  * @author Bobby Allen <ballen@bobbyallen.me>
  * @version 1.0.0
  * @license http://opensource.org/licenses/MIT
- * @link https://github.com/bobsta63/passplexity
+ * @link https://github.com/bobsta63/plexity
  * @link http://www.bobbyallen.me
  *
  */

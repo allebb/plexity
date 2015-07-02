@@ -1,6 +1,6 @@
 <?php namespace Ballen\Plexity;
 
-use Entites\Collection;
+use Ballen\Collection\Collection;
 
 /**
  * Plexity
@@ -12,7 +12,7 @@ use Entites\Collection;
  * @author Bobby Allen <ballen@bobbyallen.me>
  * @version 1.0.0
  * @license http://opensource.org/licenses/MIT
- * @link https://github.com/bobsta63/passplexity
+ * @link https://github.com/bobsta63/plexity
  * @link http://www.bobbyallen.me
  *
  */
@@ -60,7 +60,7 @@ class Plexity
 
     public function __construct()
     {
-        $this->rules = new Entites\Collection([
+        $this->rules = new Collection([
             self::RULE_UPPER => false,
             self::RULE_LOWER => false,
             self::RULE_SPECIAL => false,

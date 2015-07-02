@@ -1,5 +1,6 @@
 <?php
-require_once '../lib/plexity.inc.php';
+require_once '../vendor/autoload.php';
+
 use Ballen\Plexity\Plexity as PasswordValidator;
 
 $password = new PasswordValidator();
