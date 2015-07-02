@@ -68,7 +68,7 @@ class Plexity
         self::RULE_NUMERIC => 0,
         self::RULE_LENGTH_MIN => 0,
         self::RULE_LENGTH_MAX => 0,
-        self::RULE_NOT_IN => false,
+        self::RULE_NOT_IN => [],
     ];
 
     /**
@@ -283,7 +283,7 @@ class Plexity
      */
     private function validateLengthMin()
     {
-        if ($this->check_string >= $this->rules->get(self::RULE_LENGTH_MIN)) {
+        if (strlen($this->check_string) >= $this->rules->get(self::RULE_LENGTH_MIN)) {
             return true;
         }
         return false;
@@ -295,7 +295,7 @@ class Plexity
      */
     private function validateLengthMax()
     {
-        if ($this->check_string <= $this->rules->get(self::RULE_LENGTH_MAX)) {
+        if (strlen($this->check_string) <= $this->rules->get(self::RULE_LENGTH_MAX)) {
             return true;
         }
         return false;
