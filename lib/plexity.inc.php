@@ -20,9 +20,10 @@
 
 $includes = array(
     'Plexity.php',
-    'Entities\Collection.php',
-    'Entities\CollectionExport.php',
-    'Entities\PreviousPasswordCollection.php'
+    'Entities/Collection.php',
+    'Entities/CollectionExport.php',
+    'Entities/PreviousPasswordsCollection.php',
+    'Exceptions/ValidationException.php'
 );
 
 foreach ($includes as $file) {

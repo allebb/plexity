@@ -48,7 +48,7 @@ class Collection
      */
     public function put($key, $item)
     {
-        $this->items[$key] = $items;
+        $this->items[$key] = $item;
         return $this;
     }
 
@@ -84,7 +84,7 @@ class Collection
         if (!isset($this->items[$key])) {
             return $default;
         }
-        return (string) $this->items[$key];
+        return $this->items[$key];
     }
 
     /**

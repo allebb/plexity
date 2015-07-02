@@ -109,7 +109,7 @@ class Plexity
      */
     public function requireNumericChataters($amount = 1)
     {
-        $this->rules->put(self::RULE_LENGTH_MAX);
+        $this->rules->put(self::RULE_NUMERIC, $amount);
         return $this;
     }
 
@@ -173,6 +173,7 @@ class Plexity
     public function check($string)
     {
         $this->check = $string;
+        die(var_dump($this->rules));
         return $this->validateRules();
     }
 
@@ -183,19 +184,19 @@ class Plexity
      */
     private function validateRules()
     {
-        if (!self::RULE_LENGTH_MIN) {
+        if (self::RULE_LENGTH_MIN > 0) {
             if (!$this->validateLengthMin()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The length does not meet the minimum length requirements.');
             }
         }
 
-        if (!self::RULE_LENGTH_MAX) {
+        if (self::RULE_LENGTH_MAX > 0) {
             if (!$this->validateLengthMax()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The length exceeds the maximum length requirements.');
             }
         }
 
-        if (!self::RULE_LOWER) {
+        if (self::RULE_LOWER) {
             if (!$this->validateLowerCase()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the lower case requirements.');
             }
@@ -207,15 +208,20 @@ class Plexity
             }
         }
 
-        if (self::RULE_NUMERIC) {
+        if (self::RULE_NUMERIC > 0) {
             if (!$this->validateNumericCharacters()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the numeric character requirements.');
             }
         }
 
-        if (self::RULE_SPECIAL) {
+        if (self::RULE_SPECIAL > 0) {
             if (!$this->validateSpecialCharacters()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the special character requirements.');
+            }
+        }
+        if (self::RULE_NOT_IN) {
+            if (!$this->validateNotIn()) {
+                throw new \Ballen\Plexity\Exceptions\ValidationException('The string exists in the list of disallowed values requirements.');
             }
         }
 
@@ -247,9 +253,14 @@ class Plexity
     private function validateSpecialCharacters()
     {
         $count = 0;
-        foreach ($this->special_characters as $characters) {
-            $count += substr_count($this->check, $characters);
+        foreach ($this->special_characters as $character) {
+            foreach ($this->check as $letters) {
+                if ($letters == $character) {
+                    $count++;
+                }
+            }
         }
+        var_dump($count);
         if ($count >= $this->rules->get(self::RULE_SPECIAL)) {
             return true;
         }
