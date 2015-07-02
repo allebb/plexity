@@ -31,13 +31,24 @@ class Collection
     }
 
     /**
-     * Put a set of items to the collection (resetting the current collection)
+     * Resets the collection with the specified array content.
      * @param array $items
      * @return \Ballen\Passplexity\Entites\Collection
      */
-    public function put(array $items)
+    public function reset(array $items)
     {
         $this->items = $items;
+        return $this;
+    }
+
+    /**
+     * Set an item or items into the the collection.
+     * @param string|array $items
+     * @return \Ballen\Passplexity\Entites\Collection
+     */
+    public function put($key, $item)
+    {
+        $this->items[$key] = $items;
         return $this;
     }
 
