@@ -173,29 +173,109 @@ class Passplexity
     public function check($string)
     {
         $this->check = $string;
+        return $this->validateRules();
     }
 
-    private function validateUpperCase($string)
+    /**
+     * Validates all the configured rules and responds as requested.
+     * @return boolean
+     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     */
+    private function validateRules()
+    {
+        if (!self::RULE_LENGTH_MIN) {
+            if (!$this->validateLengthMin()) {
+                throw new \Ballen\Plexity\Exceptions\ValidationException('The length does not meet the minimum length requirements.');
+            }
+        }
+
+        if (!self::RULE_LENGTH_MAX) {
+            if (!$this->validateLengthMax()) {
+                throw new \Ballen\Plexity\Exceptions\ValidationException('The length exceeds the maximum length requirements.');
+            }
+        }
+
+        if (!self::RULE_LOWER) {
+            if (!$this->validateLowerCase()) {
+                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the lower case requirements.');
+            }
+        }
+
+        if (self::RULE_UPPER) {
+            if (!$this->validateUpperCase()) {
+                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the upper case requirements.');
+            }
+        }
+
+        if (self::RULE_NUMERIC) {
+            if (!$this->validateNumericCharacters()) {
+                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the numeric character requirements.');
+            }
+        }
+
+        if (self::RULE_SPECIAL) {
+            if (!$this->validateSpecialCharacters()) {
+                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the special character requirements.');
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates the upper case requirements.
+     * @return boolean
+     */
+    private function validateUpperCase()
     {
         return (bool) preg_match("/[A-Z]/", $this->check);
     }
 
+    /**
+     * Validates the lower case requirements.
+     * @return boolean
+     */
     private function validateLowerCase()
     {
         return (bool) preg_match("/[a-z]/", $this->check);
     }
 
+    /**
+     * Validates the special character requirements.
+     * @return boolean
+     */
     private function validateSpecialCharacters()
     {
         $count = 0;
+        foreach ($this->special_characters as $characters) {
+            $count += substr_count($this->check, $characters);
+        }
+        if ($count >= $this->rules->get(self::RULE_SPECIAL)) {
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * Validates the numeric case requirements.
+     * @return boolean
+     */
     private function validateNumericCharacters()
     {
         $count = 0;
-        
+        foreach ($this->numbers as $numbers) {
+            $count += substr_count($this->check, $numbers);
+        }
+        if ($count >= $this->rules->get(self::RULE_NUMERIC)) {
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * Validates the minimum string length requirements.
+     * @return boolean
+     */
     private function validateLengthMin()
     {
         if ($this->check >= $this->rules->get(self::RULE_LENGTH_MIN)) {
@@ -204,6 +284,10 @@ class Passplexity
         return false;
     }
 
+    /**
+     * Validates the maximum string length requirements.
+     * @return boolean
+     */
     private function validateLengthMax()
     {
         if ($this->check <= $this->rules->get(self::RULE_LENGTH_MAX)) {
@@ -212,6 +296,10 @@ class Passplexity
         return false;
     }
 
+    /**
+     * Validates the not_in requirements.
+     * @return boolean
+     */
     private function validateNotIn()
     {
         if (in_array($this->check, $this->rules->get(self::RULE_NOT_IN))) {
