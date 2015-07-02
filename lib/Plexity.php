@@ -48,7 +48,7 @@ class Plexity
 
     /**
      * The configured list of rules for the object.
-     * @var Entites\Collection
+     * @var Ballen\Collection\Collection
      */
     protected $rules;
 
