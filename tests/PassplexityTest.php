@@ -31,8 +31,8 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The length does not meet the minimum length requirements.');
         $password->check('');
     }
-    
-    public function testValidLenghtOnMaximu()
+
+    public function testValidLenghtOnMaximum()
     {
         $password = new Plexity();
         $password->maximumLength(5);
@@ -62,6 +62,36 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($password->check('AC0mpl3telyD1fferentOne'));
     }
 
+    public function testPasswordHasNumericCharacters()
+    {
+        $password = new Plexity();
+        $password->requireNumericChataters();
+        $this->assertTrue($password->check('A#4%%^'));
+    }
+
+    public function testPasswordNotHasNumericCharacters()
+    {
+        $password = new Plexity();
+        $password->requireNumericChataters();
+        $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The string failed to meet the numeric character requirements.');
+        $password->check('AnExample');
+    }
+
+    public function testPasswordHasAmountOfNumericChars()
+    {
+        $password = new Plexity();
+        $password->requireNumericChataters(5);
+        $this->assertTrue($password->check('/n3%33m2l£7?'));
+    }
+
+    public function testPasswordNotHasAmountOfNumericChars()
+    {
+        $password = new Plexity();
+        $password->requireNumericChataters(5);
+        $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The string failed to meet the numeric character requirements.');
+        $password->check('An3%a*pl3');
+    }
+
     public function testPasswordHasSpecialCharacters()
     {
         $password = new Plexity();
@@ -81,8 +111,7 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
     {
         $password = new Plexity();
         $password->requireSpecialCharacters(5);
-        $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The string failed to meet the special character requirements.');
-        $password->check('/n3%am^l£?');
+        $this->assertTrue($password->check('/n3%am^l£?:'));
     }
 
     public function testPasswordNotHasAmountOfSpecialChars()
@@ -91,5 +120,28 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
         $password->requireSpecialCharacters(5);
         $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The string failed to meet the special character requirements.');
         $password->check('An3%a*pl3');
+    }
+
+    public function testPasswordIsBetweenCharacters()
+    {
+        $password = new Plexity();
+        $password->lengthBetween(1, 5);
+        $this->assertTrue($password->check('An3a'));    
+    }
+
+    public function testPasswordIsNotBetweenCharactersMinFail()
+    {
+        $password = new Plexity();
+        $password->lengthBetween(4, 10);
+        $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The length does not meet the minimum length requirements.');
+        $password->check('An3');   
+    }
+    
+    public function testPasswordIsNotBetweenCharactersMaxFail()
+    {
+        $password = new Plexity();
+        $password->lengthBetween(1, 5);
+        $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The length exceeds the maximum length requirements.');
+        $password->check('An3akkkk');  
     }
 }
