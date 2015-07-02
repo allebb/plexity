@@ -56,18 +56,18 @@ class Plexity
      * The string to validate against
      * @var string
      */
-    private $check;
+    private $check_string;
 
     public function __construct()
     {
         $this->rules = new Collection([
             self::RULE_UPPER => false,
             self::RULE_LOWER => false,
-            self::RULE_SPECIAL => false,
-            self::RULE_NUMERIC => false,
-            self::RULE_LENGTH_MIN => false,
-            self::RULE_LENGTH_MAX => false,
-            self::RULE_NOT_IN => false,
+            self::RULE_SPECIAL => 0,
+            self::RULE_NUMERIC => 0,
+            self::RULE_LENGTH_MIN => 0,
+            self::RULE_LENGTH_MAX => 0,
+            self::RULE_NOT_IN => [],
         ]);
     }
 
@@ -172,8 +172,7 @@ class Plexity
      */
     public function check($string)
     {
-        $this->check = $string;
-        die(var_dump($this->rules));
+        $this->check_string = $string;
         return $this->validateRules();
     }
 
@@ -184,42 +183,42 @@ class Plexity
      */
     private function validateRules()
     {
-        if (self::RULE_LENGTH_MIN > 0) {
+        if ($this->rules->get(self::RULE_LENGTH_MIN) > 0) {
             if (!$this->validateLengthMin()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The length does not meet the minimum length requirements.');
             }
         }
 
-        if (self::RULE_LENGTH_MAX > 0) {
+        if ($this->rules->get(self::RULE_LENGTH_MAX) > 0) {
             if (!$this->validateLengthMax()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The length exceeds the maximum length requirements.');
             }
         }
 
-        if (self::RULE_LOWER) {
+        if ($this->rules->get(self::RULE_LOWER)) {
             if (!$this->validateLowerCase()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the lower case requirements.');
             }
         }
 
-        if (self::RULE_UPPER) {
+        if ($this->rules->get(self::RULE_UPPER)) {
             if (!$this->validateUpperCase()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the upper case requirements.');
             }
         }
 
-        if (self::RULE_NUMERIC > 0) {
+        if ($this->rules->get(self::RULE_NUMERIC) > 0) {
             if (!$this->validateNumericCharacters()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the numeric character requirements.');
             }
         }
 
-        if (self::RULE_SPECIAL > 0) {
+        if ($this->rules->get(self::RULE_SPECIAL) > 0) {
             if (!$this->validateSpecialCharacters()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the special character requirements.');
             }
         }
-        if (self::RULE_NOT_IN) {
+        if (count($this->rules->get(self::RULE_NOT_IN)) > 0) {
             if (!$this->validateNotIn()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string exists in the list of disallowed values requirements.');
             }
@@ -234,7 +233,7 @@ class Plexity
      */
     private function validateUpperCase()
     {
-        return (bool) preg_match("/[A-Z]/", $this->check);
+        return (bool) preg_match("/[A-Z]/", $this->check_string);
     }
 
     /**
@@ -243,7 +242,7 @@ class Plexity
      */
     private function validateLowerCase()
     {
-        return (bool) preg_match("/[a-z]/", $this->check);
+        return (bool) preg_match("/[a-z]/", $this->check_string);
     }
 
     /**
@@ -253,14 +252,9 @@ class Plexity
     private function validateSpecialCharacters()
     {
         $count = 0;
-        foreach ($this->special_characters as $character) {
-            foreach ($this->check as $letters) {
-                if ($letters == $character) {
-                    $count++;
-                }
-            }
+        foreach ($this->special_characters as $characters) {
+            $count += substr_count($this->check_string, $characters);
         }
-        var_dump($count);
         if ($count >= $this->rules->get(self::RULE_SPECIAL)) {
             return true;
         }
@@ -275,7 +269,7 @@ class Plexity
     {
         $count = 0;
         foreach ($this->numbers as $numbers) {
-            $count += substr_count($this->check, $numbers);
+            $count += substr_count($this->check_string, $numbers);
         }
         if ($count >= $this->rules->get(self::RULE_NUMERIC)) {
             return true;
@@ -289,7 +283,7 @@ class Plexity
      */
     private function validateLengthMin()
     {
-        if ($this->check >= $this->rules->get(self::RULE_LENGTH_MIN)) {
+        if ($this->check_string >= $this->rules->get(self::RULE_LENGTH_MIN)) {
             return true;
         }
         return false;
@@ -301,7 +295,7 @@ class Plexity
      */
     private function validateLengthMax()
     {
-        if ($this->check <= $this->rules->get(self::RULE_LENGTH_MAX)) {
+        if ($this->check_string <= $this->rules->get(self::RULE_LENGTH_MAX)) {
             return true;
         }
         return false;
@@ -313,7 +307,7 @@ class Plexity
      */
     private function validateNotIn()
     {
-        if (in_array($this->check, $this->rules->get(self::RULE_NOT_IN))) {
+        if (in_array($this->check_string, $this->rules->get(self::RULE_NOT_IN))) {
             return false;
         }
         return true;
