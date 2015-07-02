@@ -48,7 +48,7 @@ class Plexity
 
     /**
      * The configured list of rules for the object.
-     * @var Ballen\Collection\Collection
+     * @var \Ballen\Collection\Collection
      */
     protected $rules;
 
@@ -259,11 +259,7 @@ class Plexity
      */
     private function validateSpecialCharacters()
     {
-        $count = 0;
-        foreach ($this->special_characters as $characters) {
-            $count += substr_count($this->check_string, $characters);
-        }
-        if ($count >= $this->rules->get(self::RULE_SPECIAL)) {
+        if ($this->countOccurences($this->special_characters, $this->check_string) >= $this->rules->get(self::RULE_SPECIAL)) {
             return true;
         }
         return false;
@@ -275,11 +271,7 @@ class Plexity
      */
     private function validateNumericCharacters()
     {
-        $count = 0;
-        foreach ($this->numbers as $numbers) {
-            $count += substr_count($this->check_string, $numbers);
-        }
-        if ($count >= $this->rules->get(self::RULE_NUMERIC)) {
+        if ($this->countOccurences($this->numbers, $this->check_string) >= $this->rules->get(self::RULE_NUMERIC)) {
             return true;
         }
         return false;
@@ -319,5 +311,20 @@ class Plexity
             return false;
         }
         return true;
+    }
+
+    /**
+     * Count the number of occurences of a character or string in a string.
+     * @param array $needles The character/string to count occurences of.
+     * @param string $haystack The string to check against.
+     * @return int The number of occurences.
+     */
+    private function countOccurences(array $needles, $haystack)
+    {
+        $count = 0;
+        foreach ($needles as $char) {
+            $count += substr_count($haystack, $char);
+        }
+        return $count;
     }
 }
