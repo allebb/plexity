@@ -1,11 +1,11 @@
-<?php namespace Ballen\Passplexity\Entites;
+<?php namespace Ballen\Plexity\Entites;
 
-use Ballen\Passplexity\Entites\Collection;
+use Ballen\Plexity\Entites\Collection;
 
 /**
- * Passplexity
+ * Plexity
  *
- * Passplexity (Password Complexity) is a password complexity library that
+ * Plexity (Password Complexity) is a password complexity library that
  * enables you to set "rules" for a password (or any other kind of string) that
  * you can then check against in your application.
  *

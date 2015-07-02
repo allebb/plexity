@@ -1,11 +1,11 @@
-<?php namespace Ballen\Passplexity;
+<?php namespace Ballen\Plexity;
 
 use Entites\Collection;
 
 /**
- * Passplexity
+ * Plexity
  *
- * Passplexity (Password Complexity) is a password complexity library that
+ * Plexity (Password Complexity) is a password complexity library that
  * enables you to set "rules" for a password (or any other kind of string) that
  * you can then check against in your application.
  *
@@ -16,7 +16,7 @@ use Entites\Collection;
  * @link http://www.bobbyallen.me
  *
  */
-class Passplexity
+class Plexity
 {
 
     const RULE_UPPER = 'upper';
@@ -73,7 +73,7 @@ class Passplexity
 
     /**
      * Requires the password to contain upper case characters.
-     * @return \Ballen\Passplexity\Passplexity
+     * @return \Ballen\Plexity\Plexity
      */
     public function requireUpperCase()
     {
@@ -83,7 +83,7 @@ class Passplexity
 
     /**
      * Requires the password to contain lower case characters.
-     * @return \Ballen\Passplexity\Passplexity
+     * @return \Ballen\Plexity\Plexity
      */
     public function requireLowerCase()
     {
@@ -94,7 +94,7 @@ class Passplexity
     /**
      * Requires the password to contain special characters.
      * @param type $amount Optional amount of special characters the string must atleast contain.
-     * @return \Ballen\Passplexity\Passplexity
+     * @return \Ballen\Plexity\Plexity
      */
     public function requireSpecialCharacters($amount = 1)
     {
@@ -105,7 +105,7 @@ class Passplexity
     /**
      * Requires the password to contain numeric characters.
      * @param type $amount Optional amount of numeric characters the string must atleast contain.
-     * @return \Ballen\Passplexity\Passplexity
+     * @return \Ballen\Plexity\Plexity
      */
     public function requireNumericChataters($amount = 1)
     {
@@ -116,7 +116,7 @@ class Passplexity
     /**
      * Requires the password/string to be atleast X characters long.
      * @param type $length
-     * @return \Ballen\Passplexity\Passplexity
+     * @return \Ballen\Plexity\Plexity
      */
     public function minimumLength($length)
     {
@@ -130,7 +130,7 @@ class Passplexity
     /**
      * Requires the password/string to be a maximum of X charaters long.
      * @param type $length
-     * @return \Ballen\Passplexity\Passplexity
+     * @return \Ballen\Plexity\Plexity
      */
     public function maximumLength($length)
     {
@@ -145,7 +145,7 @@ class Passplexity
      * An alias for adding both the minimumLenght() and maximumLenght() methods/rules.
      * @param integer $minimmum Length must be atleast X characters
      * @param integer $maximum Length must not exceed X characters
-     * @return \Ballen\Passplexity\Passplexity
+     * @return \Ballen\Plexity\Plexity
      */
     public function lengthBetween($minimmum, $maximum)
     {
@@ -157,7 +157,7 @@ class Passplexity
     /**
      * Requires that the password/string is not found in the collection.
      * @param array The array of passwords/string to check.
-     * @return \Ballen\Passplexity\Passplexity
+     * @return \Ballen\Plexity\Plexity
      */
     public function notIn(array $array)
     {

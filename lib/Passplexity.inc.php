@@ -1,8 +1,8 @@
 <?php
 /**
- * Passplexity
+ * Plexity
  *
- * Passplexity (Password Complexity) is a password complexity library that
+ * Plexity (Password Complexity) is a password complexity library that
  * enables you to set "rules" for a password (or any other kind of string) that
  * you can then check against in your application.
  *
@@ -19,7 +19,7 @@
  */
 
 $includes = array(
-    'Passplexity.php',
+    'Plexity.php',
     'Entities\Collection.php',
     'Entities\CollectionExport.php',
     'Entities\PreviousPasswordCollection.php'

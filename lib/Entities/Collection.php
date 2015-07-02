@@ -1,9 +1,9 @@
-<?php namespace Ballen\Passplexity\Entites;
+<?php namespace Ballen\Plexity\Entites;
 
 /**
- * Passplexity
+ * Plexity
  *
- * Passplexity (Password Complexity) is a password complexity library that
+ * Plexity (Password Complexity) is a password complexity library that
  * enables you to set "rules" for a password (or any other kind of string) that
  * you can then check against in your application.
  *
@@ -33,7 +33,7 @@ class Collection
     /**
      * Resets the collection with the specified array content.
      * @param array $items
-     * @return \Ballen\Passplexity\Entites\Collection
+     * @return \Ballen\Plexity\Entites\Collection
      */
     public function reset(array $items)
     {
@@ -44,7 +44,7 @@ class Collection
     /**
      * Set an item or items into the the collection.
      * @param string|array $items
-     * @return \Ballen\Passplexity\Entites\Collection
+     * @return \Ballen\Plexity\Entites\Collection
      */
     public function put($key, $item)
     {
@@ -56,7 +56,7 @@ class Collection
      * Push a new item (or collection of items) into the collection onto the end
      * of the collection.
      * @param array $items
-     * @return \Ballen\Passplexity\Entites\Collection
+     * @return \Ballen\Plexity\Entites\Collection
      */
     public function push(array $items)
     {
@@ -66,7 +66,7 @@ class Collection
 
     /**
      * Get all items from the collection.
-     * @return \Ballen\Passplexity\Entites\CollectionExport
+     * @return \Ballen\Plexity\Entites\CollectionExport
      */
     public function all()
     {
