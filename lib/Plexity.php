@@ -58,17 +58,25 @@ class Plexity
      */
     private $check_string;
 
+    /**
+     * Default collection settings
+     */
+    private $default_configuration = [
+        self::RULE_UPPER => false,
+        self::RULE_LOWER => false,
+        self::RULE_SPECIAL => 0,
+        self::RULE_NUMERIC => 0,
+        self::RULE_LENGTH_MIN => 0,
+        self::RULE_LENGTH_MAX => 0,
+        self::RULE_NOT_IN => false,
+    ];
+
+    /**
+     * Instaniate a new instance of the Plexity class.
+     */
     public function __construct()
     {
-        $this->rules = new Collection([
-            self::RULE_UPPER => false,
-            self::RULE_LOWER => false,
-            self::RULE_SPECIAL => 0,
-            self::RULE_NUMERIC => 0,
-            self::RULE_LENGTH_MIN => 0,
-            self::RULE_LENGTH_MAX => 0,
-            self::RULE_NOT_IN => [],
-        ]);
+        $this->rules = new Collection($this->default_configuration);
     }
 
     /**
@@ -115,29 +123,29 @@ class Plexity
 
     /**
      * Requires the password/string to be atleast X characters long.
-     * @param int $length Minimum length that the password/string must be.
+     * @param int $min_length Minimum length that the password/string must be.
      * @return \Ballen\Plexity\Plexity
      */
-    public function minimumLength($length)
+    public function minimumLength($min_length)
     {
-        if (!is_int($length)) {
+        if (!is_int($min_length)) {
             throw new \InvalidArgumentException('The minimum length value must be of type integer.');
         }
-        $this->rules->put(self::RULE_LENGTH_MIN, $length);
+        $this->rules->put(self::RULE_LENGTH_MIN, $min_length);
         return $this;
     }
 
     /**
      * Requires the password/string to be a maximum of X charaters long.
-     * @param int $length Maximum length that the password/string can be.
+     * @param int $max_length Maximum length that the password/string can be.
      * @return \Ballen\Plexity\Plexity
      */
-    public function maximumLength($length)
+    public function maximumLength($max_length)
     {
-        if (!is_int($length)) {
+        if (!is_int($max_length)) {
             throw new \InvalidArgumentException('The maximum length value must be of type integer.');
         }
-        $this->rules->put(self::RULE_LENGTH_MAX, $length);
+        $this->rules->put(self::RULE_LENGTH_MAX, $max_length);
         return $this;
     }
 
