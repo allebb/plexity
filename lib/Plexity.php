@@ -93,7 +93,7 @@ class Plexity
 
     /**
      * Requires the password to contain special characters.
-     * @param type $amount Optional amount of special characters the string must atleast contain.
+     * @param inte $amount Optional amount of special characters the string must atleast contain.
      * @return \Ballen\Plexity\Plexity
      */
     public function requireSpecialCharacters($amount = 1)
@@ -104,7 +104,7 @@ class Plexity
 
     /**
      * Requires the password to contain numeric characters.
-     * @param type $amount Optional amount of numeric characters the string must atleast contain.
+     * @param int $amount Optional amount of numeric characters the string must atleast contain.
      * @return \Ballen\Plexity\Plexity
      */
     public function requireNumericChataters($amount = 1)
@@ -115,7 +115,7 @@ class Plexity
 
     /**
      * Requires the password/string to be atleast X characters long.
-     * @param type $length
+     * @param int $length Minimum length that the password/string must be.
      * @return \Ballen\Plexity\Plexity
      */
     public function minimumLength($length)
@@ -129,7 +129,7 @@ class Plexity
 
     /**
      * Requires the password/string to be a maximum of X charaters long.
-     * @param type $length
+     * @param int $length Maximum length that the password/string can be.
      * @return \Ballen\Plexity\Plexity
      */
     public function maximumLength($length)
@@ -143,8 +143,8 @@ class Plexity
 
     /**
      * An alias for adding both the minimumLenght() and maximumLenght() methods/rules.
-     * @param integer $minimmum Length must be atleast X characters
-     * @param integer $maximum Length must not exceed X characters
+     * @param int $minimmum Length must be atleast X characters long.
+     * @param int $maximum Length must not exceed X characters long.
      * @return \Ballen\Plexity\Plexity
      */
     public function lengthBetween($minimmum, $maximum)
@@ -156,7 +156,7 @@ class Plexity
 
     /**
      * Requires that the password/string is not found in the collection.
-     * @param array The array of passwords/string to check.
+     * @param array The array of passwords/strings to check against.
      * @return \Ballen\Plexity\Plexity
      */
     public function notIn(array $array)
