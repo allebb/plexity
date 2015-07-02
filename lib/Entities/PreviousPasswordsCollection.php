@@ -1,4 +1,6 @@
-<?php namespace Ballen\Passplexity;
+<?php namespace Ballen\Passplexity\Entites;
+
+use Ballen\Passplexity\Entites\Collection;
 
 /**
  * Passplexity
@@ -14,20 +16,11 @@
  * @link http://www.bobbyallen.me
  *
  */
-class Passplexity
+class PreviousPasswordsCollection extends Collection
 {
 
-    /**
-     * Number lists
-     * @var array
-     */
-    protected $numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-
-    /**
-     * Special Character list
-     * @see https://www.owasp.org/index.php/Password_special_characters
-     * @var array
-     */
-    protected $special_characters = [' ', '!', '"', "#"];
-
+    public function __construct(array $items)
+    {
+        parent::__construct($items);
+    }
 }
