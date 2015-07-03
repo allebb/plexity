@@ -171,7 +171,7 @@ class Plexity
     public function check($string)
     {
         $this->check_string = $string;
-        $this->validator->validate($this);
+        return $this->validator->validate($this);
     }
 
     /**
