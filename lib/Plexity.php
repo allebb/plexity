@@ -1,6 +1,7 @@
 <?php namespace Ballen\Plexity;
 
 use Ballen\Collection\Collection;
+use Ballen\Plexity\Support\Validator;
 
 /**
  * Plexity
@@ -28,29 +29,10 @@ class Plexity
     const RULE_NOT_IN = 'not_in';
 
     /**
-     * Number lists
-     * @var array
-     */
-    protected $numbers = [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 0
-    ];
-
-    /**
-     * Special Character list
-     * @see https://www.owasp.org/index.php/Password_special_characters
-     * @var array
-     */
-    protected $special_characters = [
-        ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '.',
-        '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '\\', '^', '_', '`',
-        '{', '|', '}', '~',
-    ];
-
-    /**
      * The configured list of rules for the object.
      * @var \Ballen\Collection\Collection
      */
-    protected $rules;
+    private $rules;
 
     /**
      * The string to validate against
@@ -72,11 +54,19 @@ class Plexity
     ];
 
     /**
+     * The validator instance.
+     * @var \Ballen\Plexity\Support\Validator
+     */
+    private $validator;
+
+    /**
      * Instaniate a new instance of the Plexity class.
      */
     public function __construct()
     {
         $this->rules = new Collection($this->default_configuration);
+
+        $this->validator = new Validator;
     }
 
     /**
@@ -181,150 +171,24 @@ class Plexity
     public function check($string)
     {
         $this->check_string = $string;
-        return $this->validateRules();
+        $this->validator->validate($this);
     }
 
     /**
-     * Validates all the configured rules and responds as requested.
-     * @return boolean
-     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     * Returns the configured rule set.
+     * @return \Ballen\Collection\Collection
      */
-    private function validateRules()
+    public function rules()
     {
-        if ($this->rules->get(self::RULE_LENGTH_MIN) > 0) {
-            if (!$this->validateLengthMin()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The length does not meet the minimum length requirements.');
-            }
-        }
-
-        if ($this->rules->get(self::RULE_LENGTH_MAX) > 0) {
-            if (!$this->validateLengthMax()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The length exceeds the maximum length requirements.');
-            }
-        }
-
-        if ($this->rules->get(self::RULE_LOWER)) {
-            if (!$this->validateLowerCase()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the lower case requirements.');
-            }
-        }
-
-        if ($this->rules->get(self::RULE_UPPER)) {
-            if (!$this->validateUpperCase()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the upper case requirements.');
-            }
-        }
-
-        if ($this->rules->get(self::RULE_NUMERIC) > 0) {
-            if (!$this->validateNumericCharacters()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the numeric character requirements.');
-            }
-        }
-
-        if ($this->rules->get(self::RULE_SPECIAL) > 0) {
-            if (!$this->validateSpecialCharacters()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the special character requirements.');
-            }
-        }
-        if (count($this->rules->get(self::RULE_NOT_IN)) > 0) {
-            if (!$this->validateNotIn()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The string exists in the list of disallowed values requirements.');
-            }
-        }
-
-        return true;
+        return $this->rules;
     }
 
     /**
-     * Validates the upper case requirements.
-     * @return boolean
+     * Returns the passowrd/string of which is to be checked.
+     * @return string
      */
-    private function validateUpperCase()
+    public function checkString()
     {
-        return (bool) preg_match("/[A-Z]/", $this->check_string);
-    }
-
-    /**
-     * Validates the lower case requirements.
-     * @return boolean
-     */
-    private function validateLowerCase()
-    {
-        return (bool) preg_match("/[a-z]/", $this->check_string);
-    }
-
-    /**
-     * Validates the special character requirements.
-     * @return boolean
-     */
-    private function validateSpecialCharacters()
-    {
-        if ($this->countOccurences($this->special_characters, $this->check_string) >= $this->rules->get(self::RULE_SPECIAL)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Validates the numeric case requirements.
-     * @return boolean
-     */
-    private function validateNumericCharacters()
-    {
-        if ($this->countOccurences($this->numbers, $this->check_string) >= $this->rules->get(self::RULE_NUMERIC)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Validates the minimum string length requirements.
-     * @return boolean
-     */
-    private function validateLengthMin()
-    {
-        if (strlen($this->check_string) >= $this->rules->get(self::RULE_LENGTH_MIN)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Validates the maximum string length requirements.
-     * @return boolean
-     */
-    private function validateLengthMax()
-    {
-        if (strlen($this->check_string) <= $this->rules->get(self::RULE_LENGTH_MAX)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Validates the not_in requirements.
-     * @return boolean
-     */
-    private function validateNotIn()
-    {
-        if (in_array($this->check_string, $this->rules->get(self::RULE_NOT_IN))) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Count the number of occurences of a character or string in a string.
-     * @param array $needles The character/string to count occurences of.
-     * @param string $haystack The string to check against.
-     * @return int The number of occurences.
-     */
-    private function countOccurences(array $needles, $haystack)
-    {
-        $count = 0;
-        foreach ($needles as $char) {
-            $count += substr_count($haystack, $char);
-        }
-        return $count;
+        return $this->check_string;
     }
 }
