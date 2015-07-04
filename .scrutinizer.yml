@@ -1,6 +1,6 @@
 filter:
     paths: [lib/*]
-    excluded_paths: [examples/*, tests/*]
+    excluded_paths: [vendor/*, examples/*, tests/*]
 checks:
     php: true
 tools:

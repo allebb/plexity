@@ -5,16 +5,41 @@ use Ballen\Plexity\Plexity;
 class PassplexitylTest extends PHPUnit_Framework_TestCase
 {
 
-    const PASSWORD1 = "mytestpassword";
-    const PASSWORD2 = "APassword123!";
-    const PASSWORD3 = "Mu171Ple@5%%";
-    const PASSWORD4 = "";
-
     public function testSuccessfulRuleSet()
     {
         $password = new Plexity();
         $password->lengthBetween(1, 5);
         $this->assertTrue($password->check('a5$f'));
+    }
+
+    public function testValidRequireUpperCase()
+    {
+        $password = new Plexity();
+        $password->requireUpperCase();
+        $this->assertTrue($password->check('Trff'));
+    }
+
+    public function testInvalidRequireUpperCase()
+    {
+        $password = new Plexity();
+        $password->requireUpperCase();
+        $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The string failed to meet the upper case requirements.');
+        $password->check('allthelettersarelowercase');
+    }
+
+    public function testValidRequireLowerCase()
+    {
+        $password = new Plexity();
+        $password->requireLowerCase();
+        $this->assertTrue($password->check('Trff'));
+    }
+
+    public function testInvalidRequireLowerCase()
+    {
+        $password = new Plexity();
+        $password->requireLowerCase();
+        $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The string failed to meet the lower case requirements.');
+        $password->check('THISLOWERCASEEXAMPLEWILLFAIL');
     }
 
     public function testValidLenghtOnMinimum()
@@ -126,7 +151,7 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
     {
         $password = new Plexity();
         $password->lengthBetween(1, 5);
-        $this->assertTrue($password->check('An3a'));    
+        $this->assertTrue($password->check('An3a'));
     }
 
     public function testPasswordIsNotBetweenCharactersMinFail()
@@ -134,14 +159,14 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
         $password = new Plexity();
         $password->lengthBetween(4, 10);
         $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The length does not meet the minimum length requirements.');
-        $password->check('An3');   
+        $password->check('An3');
     }
-    
+
     public function testPasswordIsNotBetweenCharactersMaxFail()
     {
         $password = new Plexity();
         $password->lengthBetween(1, 5);
         $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The length exceeds the maximum length requirements.');
-        $password->check('An3akkkk');  
+        $password->check('An3akkkk');
     }
 }
