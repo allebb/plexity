@@ -32,17 +32,83 @@ This client library is released under the MIT license, a [copy of the license](h
 Setup
 -----
 
-TBC
+## Setup
+
+To install the package into your project (assuming you are using the Composer package manager) you can simply type:
+
+```
+composer require ballen/plexity
+```
+
+
+Alternatively you can manually add this library to your project, simply edit your ``composer.json`` file and add the following lines (or update your existing ``require`` section with the library like so):
+
+```php
+"require": {
+        "ballen/plexity": "~1.0"
+}
+```
+
+Then install the package like so:
+
+```
+composer update ballen/plexity --no-dev
+```
 
 Examples
 --------
 
-TBC
+A simple example of how you can use the methods to build up a password complexity rule-set and then validate the password.
+
+```php
+
+use Ballen\Plexity\Plexity as PasswordValidator;
+
+$password = new PasswordValidator();
+
+$password->requireSpecialCharacters() // We want the password to contain special characters.
+    ->requireUpperCase() // Requires the password to contains upper case characters.
+    ->requireLowerCase() // Requires the password to contains lower case characters.
+    ->requireNumericChataters(3); // We want to ensure that the password uses at least 3 numbers!
+
+// An example of passing a password history array, if the password exists in here then we'll disallow it!
+$password->notIn([
+    'test_password',
+    'Ros3bud',
+    'mypasSwordh88e8*&|re',
+]);
+
+
+try {
+    $password->check('my_password_string_here');
+    echo "Great news! The password passed validation!";
+} catch (Ballen\Plexity\Exceptions\ValidationException $exception) {
+    die('Password was invalid, the error was: ' . $exception->getMessage());
+}
+
+```
 
 Tests and coverage
 ------------------
 
-TBC
+This library is fully unit tested using [PHPUnit](https://phpunit.de/).
+
+I use TravisCI for continuous integration, which triggers tests for PHP 5.3, 5.4, 5.5, 5.6, 7.0 and HHVM every time a commit is pushed.
+
+If you wish to run the tests yourself you should run the following:
+
+```
+# Install the Plexity Library with the 'development' packages this then includes PHPUnit!
+composer install --dev
+
+# Now we run the unit tests (from the root of the project) like so:
+./vendor/bin/phpunit
+```
+
+Code coverage can also be ran but requires XDebug installed...
+```
+./vendor/bin/phpunit --coverage-html ./report
+```
 
 Support
 -------
