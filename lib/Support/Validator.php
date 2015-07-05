@@ -38,48 +38,101 @@ class Validator
     public function validate(Plexity $configuration)
     {
         $this->configuration = $configuration;
+        $this->checkMinimumLength();
+        $this->checkMaximumLength();
+        $this->checkLowerCase();
+        $this->checkUpperCase();
+        $this->checkNumericCharacters();
+        $this->checkSpecialCharacters();
+        $this->checkNotIn();
+        return true;
+    }
 
+    /**
+     * Checks the minimum length requirement.
+     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     */
+    public function checkMinimumLength()
+    {
         if ($this->configuration->rules()->get(Plexity::RULE_LENGTH_MIN) > 0) {
             if (!$this->validateLengthMin()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The length does not meet the minimum length requirements.');
             }
         }
+    }
 
+    /**
+     * Checks the minimum maximum length requirement.
+     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     */
+    public function checkMaximumLength()
+    {
         if ($this->configuration->rules()->get(Plexity::RULE_LENGTH_MAX) > 0) {
             if (!$this->validateLengthMax()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The length exceeds the maximum length requirements.');
             }
         }
+    }
 
+    /**
+     * Checks the lowercase character(s) requirement.
+     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     */
+    public function checkLowerCase()
+    {
         if ($this->configuration->rules()->get(Plexity::RULE_LOWER)) {
             if (!$this->validateLowerCase()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the lower case requirements.');
             }
         }
+    }
 
+    /**
+     * Checks the upper case character(s) requirement.
+     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     */
+    public function checkUpperCase()
+    {
         if ($this->configuration->rules()->get(Plexity::RULE_UPPER)) {
             if (!$this->validateUpperCase()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the upper case requirements.');
             }
         }
+    }
 
+    /**
+     * Checks the numeric character(s) requirement.
+     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     */
+    public function checkNumericCharacters()
+    {
         if ($this->configuration->rules()->get(Plexity::RULE_NUMERIC) > 0) {
             if (!$this->validateNumericCharacters()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the numeric character requirements.');
             }
         }
+    }
 
+    /**
+     * Checks the special character(s) requirement.
+     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     */
+    public function checkSpecialCharacters()
+    {
         if ($this->configuration->rules()->get(Plexity::RULE_SPECIAL) > 0) {
             if (!$this->validateSpecialCharacters()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the special character requirements.');
             }
         }
+    }
+
+    public function checkNotIn()
+    {
         if (count($this->configuration->rules()->get(Plexity::RULE_NOT_IN)) > 0) {
             if (!$this->validateNotIn()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string exists in the list of disallowed values requirements.');
             }
         }
-        return true;
     }
 
     /**
