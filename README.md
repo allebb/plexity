@@ -1,6 +1,7 @@
 # Plexity
 
 [![Build Status](https://travis-ci.org/bobsta63/plexity.svg)](https://travis-ci.org/bobsta63/plexity)
+[![Code Coverage](https://scrutinizer-ci.com/g/bobsta63/plexity/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/bobsta63/plexity/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/bobsta63/plexity/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/bobsta63/plexity/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/ballen/plexity/v/stable)](https://packagist.org/packages/ballen/plexity)
 [![Latest Unstable Version](https://poser.pugx.org/ballen/plexity/v/unstable)](https://packagist.org/packages/ballen/plexity)
