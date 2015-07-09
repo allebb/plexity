@@ -119,7 +119,7 @@ class Plexity
     public function minimumLength($min_length)
     {
         if (!is_int($min_length)) {
-            throw new InvalidArgumentException('The minimum length value must be of type integer.');
+            throw new \InvalidArgumentException('The minimum length value must be of type integer.');
         }
         $this->rules->put(self::RULE_LENGTH_MIN, $min_length);
         return $this;
@@ -133,7 +133,7 @@ class Plexity
     public function maximumLength($max_length)
     {
         if (!is_int($max_length)) {
-            throw new InvalidArgumentException('The maximum length value must be of type integer.');
+            throw new \InvalidArgumentException('The maximum length value must be of type integer.');
         }
         $this->rules->put(self::RULE_LENGTH_MAX, $max_length);
         return $this;

@@ -52,9 +52,17 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
     public function testInvalidLenghtOnMinimum()
     {
         $password = new Plexity();
-        $password->minimumLength(1);
+        $password->minimumLength(3);
         $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The length does not meet the minimum length requirements.');
         $password->check('');
+    }
+    
+    public function testInvalidTypeOnMinimum()
+    {
+        $password = new Plexity();
+        $this->setExpectedException('\InvalidArgumentException', 'The minimum length value must be of type integer.');
+        $password->minimumLength('test');
+        $password->check('Ab');
     }
 
     public function testValidLenghtOnMaximum()
@@ -69,6 +77,14 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
         $password = new Plexity();
         $password->maximumLength(1);
         $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The length exceeds the maximum length requirements.');
+        $password->check('Ab');
+    }
+    
+    public function testInvalidTypeOnMaximum()
+    {
+        $password = new Plexity();
+        $this->setExpectedException('\InvalidArgumentException', 'The maximum length value must be of type integer.');
+        $password->maximumLength('test');
         $password->check('Ab');
     }
 
