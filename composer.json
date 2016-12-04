@@ -1,6 +1,5 @@
 {
     "name": "ballen/plexity",
-    "version": "1.0.0",
     "description": "A password complexity checker library.",
     "type": "library",
     "keywords": ["password", "string", "complexity", "rules", "plexity"],

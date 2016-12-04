@@ -1,4 +1,5 @@
-<?php namespace Ballen\Plexity\Exceptions;
+<?php
+namespace Ballen\Plexity\Exceptions;
 
 /**
  * Plexity
@@ -8,10 +9,9 @@
  * you can then check against in your application.
  *
  * @author Bobby Allen <ballen@bobbyallen.me>
- * @version 1.0.0
  * @license http://opensource.org/licenses/MIT
- * @link https://github.com/bobsta63/passplexity
- * @link http://www.bobbyallen.me
+ * @link https://github.com/allebb/passplexity
+ * @link http://bobbyallen.me
  *
  */
 class ValidationException extends \Exception

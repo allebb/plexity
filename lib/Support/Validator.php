@@ -1,7 +1,21 @@
-<?php namespace Ballen\Plexity\Support;
+<?php
+namespace Ballen\Plexity\Support;
 
 use \Ballen\Plexity\Plexity;
 
+/**
+ * Plexity
+ *
+ * Plexity (Password Complexity) is a password complexity library that
+ * enables you to set "rules" for a password (or any other kind of string) that
+ * you can then check against in your application.
+ *
+ * @author Bobby Allen <ballen@bobbyallen.me>
+ * @license http://opensource.org/licenses/MIT
+ * @link https://github.com/allebb/passplexity
+ * @link http://bobbyallen.me
+ *
+ */
 class Validator
 {
 
@@ -24,7 +38,7 @@ class Validator
      * @see https://www.owasp.org/index.php/Password_special_characters
      * @var array
      */
-    protected $special_characters = [
+    protected $specialCharacters = [
         ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '.',
         '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '\\', '^', '_', '`',
         '{', '|', '}', '~',

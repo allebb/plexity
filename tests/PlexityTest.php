@@ -1,5 +1,5 @@
 <?php
-use \PHPUnit_Framework_TestCase;
+
 use Ballen\Plexity\Plexity;
 
 class PassplexitylTest extends PHPUnit_Framework_TestCase
@@ -56,7 +56,7 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The length does not meet the minimum length requirements.');
         $password->check('');
     }
-    
+
     public function testInvalidTypeOnMinimum()
     {
         $password = new Plexity();
@@ -79,7 +79,7 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The length exceeds the maximum length requirements.');
         $password->check('Ab');
     }
-    
+
     public function testInvalidTypeOnMaximum()
     {
         $password = new Plexity();

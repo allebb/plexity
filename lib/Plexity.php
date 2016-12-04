@@ -1,4 +1,5 @@
-<?php namespace Ballen\Plexity;
+<?php
+namespace Ballen\Plexity;
 
 use Ballen\Collection\Collection;
 use Ballen\Plexity\Support\Validator;
@@ -11,10 +12,9 @@ use Ballen\Plexity\Support\Validator;
  * you can then check against in your application.
  *
  * @author Bobby Allen <ballen@bobbyallen.me>
- * @version 1.0.0
  * @license http://opensource.org/licenses/MIT
- * @link https://github.com/bobsta63/plexity
- * @link http://www.bobbyallen.me
+ * @link https://github.com/allebb/plexity
+ * @link http://bobbyallen.me
  *
  */
 class Plexity
@@ -38,12 +38,12 @@ class Plexity
      * The string to validate against
      * @var string
      */
-    private $check_string;
+    private $checkString;
 
     /**
      * Default collection settings
      */
-    private $default_configuration = [
+    private $defaultConfiguration = [
         self::RULE_UPPER => false,
         self::RULE_LOWER => false,
         self::RULE_SPECIAL => 0,
@@ -64,7 +64,7 @@ class Plexity
      */
     public function __construct()
     {
-        $this->rules = new Collection($this->default_configuration);
+        $this->rules = new Collection($this->defaultConfiguration);
 
         $this->validator = new Validator;
     }
@@ -113,29 +113,29 @@ class Plexity
 
     /**
      * Requires the password/string to be atleast X characters long.
-     * @param int $min_length Minimum length that the password/string must be.
+     * @param int $minLength Minimum length that the password/string must be.
      * @return \Ballen\Plexity\Plexity
      */
-    public function minimumLength($min_length)
+    public function minimumLength($minLength)
     {
-        if (!is_int($min_length)) {
+        if (!is_int($minLength)) {
             throw new \InvalidArgumentException('The minimum length value must be of type integer.');
         }
-        $this->rules->put(self::RULE_LENGTH_MIN, $min_length);
+        $this->rules->put(self::RULE_LENGTH_MIN, $minLength);
         return $this;
     }
 
     /**
-     * Requires the password/string to be a maximum of X charaters long.
-     * @param int $max_length Maximum length that the password/string can be.
+     * Requires the password/string to be a maximum of X characters long.
+     * @param int $maxLength Maximum length that the password/string can be.
      * @return \Ballen\Plexity\Plexity
      */
-    public function maximumLength($max_length)
+    public function maximumLength($maxLength)
     {
-        if (!is_int($max_length)) {
+        if (!is_int($maxLength)) {
             throw new \InvalidArgumentException('The maximum length value must be of type integer.');
         }
-        $this->rules->put(self::RULE_LENGTH_MAX, $max_length);
+        $this->rules->put(self::RULE_LENGTH_MAX, $maxLength);
         return $this;
     }
 
@@ -170,7 +170,7 @@ class Plexity
      */
     public function check($string)
     {
-        $this->check_string = $string;
+        $this->checkString = $string;
         return $this->validator->validate($this);
     }
 
@@ -184,11 +184,11 @@ class Plexity
     }
 
     /**
-     * Returns the passowrd/string of which is to be checked.
+     * Returns the password/string of which is to be checked.
      * @return string
      */
     public function checkString()
     {
-        return $this->check_string;
+        return $this->checkString;
     }
 }
