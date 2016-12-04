@@ -173,7 +173,7 @@ class Validator
      */
     private function validateSpecialCharacters()
     {
-        if ($this->countOccurences($this->special_characters, $this->configuration->checkString()) >= $this->configuration->rules()->get(Plexity::RULE_SPECIAL)) {
+        if ($this->countOccurences($this->specialCharacters, $this->configuration->checkString()) >= $this->configuration->rules()->get(Plexity::RULE_SPECIAL)) {
             return true;
         }
         return false;
