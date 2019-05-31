@@ -1,4 +1,5 @@
 <?php
+
 namespace Ballen\Plexity;
 
 use Ballen\Collection\Collection;
@@ -14,7 +15,7 @@ use Ballen\Plexity\Support\Validator;
  * @author Bobby Allen <ballen@bobbyallen.me>
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/allebb/plexity
- * @link http://bobbyallen.me
+ * @link https://bobbyallen.me
  *
  */
 class Plexity
@@ -42,6 +43,7 @@ class Plexity
 
     /**
      * Default collection settings
+     * @var array
      */
     private $defaultConfiguration = [
         self::RULE_UPPER => 0,
@@ -55,7 +57,7 @@ class Plexity
 
     /**
      * The validator instance.
-     * @var \Ballen\Plexity\Support\Validator
+     * @var Support\Validator
      */
     private $validator;
 
@@ -71,8 +73,8 @@ class Plexity
 
     /**
      * Requires the password to contain upper case characters.
-     * @param int $amount Optional number of required upper case characters (will default to 1)
-     * @return \Ballen\Plexity\Plexity
+     * @param int $amount Optional minimum number of required upper case characters (will default to 1)
+     * @return Plexity
      */
     public function requireUpperCase($amount = 1)
     {
@@ -82,8 +84,8 @@ class Plexity
 
     /**
      * Requires the password to contain lower case characters.
-     * @param int $amount Optional number of required lower case characters (will default to 1)
-     * @return \Ballen\Plexity\Plexity
+     * @param int $amount Optional minimum number of required lower case characters (will default to 1)
+     * @return Plexity
      */
     public function requireLowerCase($amount = 1)
     {
@@ -93,8 +95,8 @@ class Plexity
 
     /**
      * Requires the password to contain special characters.
-     * @param inte $amount Optional amount of special characters the string must atleast contain.
-     * @return \Ballen\Plexity\Plexity
+     * @param int $amount Optional amount of special characters the string must atleast contain.
+     * @return Plexity
      */
     public function requireSpecialCharacters($amount = 1)
     {
@@ -105,7 +107,7 @@ class Plexity
     /**
      * Requires the password to contain numeric characters.
      * @param int $amount Optional amount of numeric characters the string must atleast contain.
-     * @return \Ballen\Plexity\Plexity
+     * @return Plexity
      */
     public function requireNumericChataters($amount = 1)
     {
@@ -116,7 +118,7 @@ class Plexity
     /**
      * Requires the password/string to be atleast X characters long.
      * @param int $minLength Minimum length that the password/string must be.
-     * @return \Ballen\Plexity\Plexity
+     * @return Plexity
      */
     public function minimumLength($minLength)
     {
@@ -130,7 +132,7 @@ class Plexity
     /**
      * Requires the password/string to be a maximum of X characters long.
      * @param int $maxLength Maximum length that the password/string can be.
-     * @return \Ballen\Plexity\Plexity
+     * @return Plexity
      */
     public function maximumLength($maxLength)
     {
@@ -145,7 +147,7 @@ class Plexity
      * An alias for adding both the minimumLenght() and maximumLenght() methods/rules.
      * @param int $minimmum Length must be atleast X characters long.
      * @param int $maximum Length must not exceed X characters long.
-     * @return \Ballen\Plexity\Plexity
+     * @return Plexity
      */
     public function lengthBetween($minimmum, $maximum)
     {
@@ -157,7 +159,7 @@ class Plexity
     /**
      * Requires that the password/string is not found in the collection.
      * @param array The array of passwords/strings to check against.
-     * @return \Ballen\Plexity\Plexity
+     * @return Plexity
      */
     public function notIn(array $array)
     {
@@ -167,8 +169,9 @@ class Plexity
 
     /**
      * Check the string against the list of configured rules to ensure that it is valid.
-     * @string $string The password/string to validate.
-     * @return boolean
+     * @param string $string The password/string to validate.
+     * @return bool
+     * @throws Exceptions\ValidationException
      */
     public function check($string)
     {
@@ -178,7 +181,7 @@ class Plexity
 
     /**
      * Returns the configured rule set.
-     * @return \Ballen\Collection\Collection
+     * @return Collection
      */
     public function rules()
     {

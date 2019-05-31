@@ -2,7 +2,8 @@
 
 namespace Ballen\Plexity\Support;
 
-use \Ballen\Plexity\Plexity;
+use Ballen\Plexity\Plexity;
+use Ballen\Plexity\Exceptions\ValidationException;
 
 /**
  * Plexity
@@ -14,7 +15,7 @@ use \Ballen\Plexity\Plexity;
  * @author Bobby Allen <ballen@bobbyallen.me>
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/allebb/passplexity
- * @link http://bobbyallen.me
+ * @link https://bobbyallen.me
  *
  */
 class Validator
@@ -22,7 +23,7 @@ class Validator
 
     /**
      * The Plexity object (contains the validation configuration)
-     * @var \Ballen\Plexity\Plexity
+     * @var Plexity
      */
     private $configuration;
 
@@ -48,7 +49,7 @@ class Validator
     /**
      * Validates all the configured rules and responds as requested.
      * @return boolean
-     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function validate(Plexity $configuration)
     {
@@ -65,91 +66,91 @@ class Validator
 
     /**
      * Checks the minimum length requirement.
-     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function checkMinimumLength()
     {
         if ($this->configuration->rules()->get(Plexity::RULE_LENGTH_MIN) > 0) {
             if (!$this->validateLengthMin()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The length does not meet the minimum length requirements.');
+                throw new ValidationException('The length does not meet the minimum length requirements.');
             }
         }
     }
 
     /**
      * Checks the minimum maximum length requirement.
-     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function checkMaximumLength()
     {
         if ($this->configuration->rules()->get(Plexity::RULE_LENGTH_MAX) > 0) {
             if (!$this->validateLengthMax()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The length exceeds the maximum length requirements.');
+                throw new ValidationException('The length exceeds the maximum length requirements.');
             }
         }
     }
 
     /**
      * Checks the lowercase character(s) requirement.
-     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function checkLowerCase()
     {
         if ($this->configuration->rules()->get(Plexity::RULE_LOWER) > 0) {
             if (!$this->validateLowerCase()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the lower case requirements.');
+                throw new ValidationException('The string failed to meet the lower case requirements.');
             }
         }
     }
 
     /**
      * Checks the upper case character(s) requirement.
-     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function checkUpperCase()
     {
         if ($this->configuration->rules()->get(Plexity::RULE_UPPER) > 0) {
             if (!$this->validateUpperCase()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the upper case requirements.');
+                throw new ValidationException('The string failed to meet the upper case requirements.');
             }
         }
     }
 
     /**
      * Checks the numeric character(s) requirement.
-     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function checkNumericCharacters()
     {
         if ($this->configuration->rules()->get(Plexity::RULE_NUMERIC) > 0) {
             if (!$this->validateNumericCharacters()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the numeric character requirements.');
+                throw new ValidationException('The string failed to meet the numeric character requirements.');
             }
         }
     }
 
     /**
      * Checks the special character(s) requirement.
-     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function checkSpecialCharacters()
     {
         if ($this->configuration->rules()->get(Plexity::RULE_SPECIAL) > 0) {
             if (!$this->validateSpecialCharacters()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the special character requirements.');
+                throw new ValidationException('The string failed to meet the special character requirements.');
             }
         }
     }
 
     /**
      * Validates if a string is not in a array (password history database).
-     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function checkNotIn()
     {
         if (count($this->configuration->rules()->get(Plexity::RULE_NOT_IN)) > 0) {
             if (!$this->validateNotIn()) {
-                throw new \Ballen\Plexity\Exceptions\ValidationException('The string exists in the list of disallowed values requirements.');
+                throw new ValidationException('The string exists in the list of disallowed values requirements.');
             }
         }
     }
@@ -190,7 +191,7 @@ class Validator
      */
     private function validateSpecialCharacters()
     {
-        if ($this->countOccurences($this->specialCharacters, $this->configuration->checkString()) >= $this->configuration->rules()->get(Plexity::RULE_SPECIAL)) {
+        if ($this->countOccurrences($this->specialCharacters, $this->configuration->checkString()) >= $this->configuration->rules()->get(Plexity::RULE_SPECIAL)) {
             return true;
         }
         return false;
@@ -202,7 +203,7 @@ class Validator
      */
     private function validateNumericCharacters()
     {
-        if ($this->countOccurences($this->numbers, $this->configuration->checkString()) >= $this->configuration->rules()->get(Plexity::RULE_NUMERIC)) {
+        if ($this->countOccurrences($this->numbers, $this->configuration->checkString()) >= $this->configuration->rules()->get(Plexity::RULE_NUMERIC)) {
             return true;
         }
         return false;
@@ -238,7 +239,7 @@ class Validator
      */
     private function validateNotIn()
     {
-        if (in_array($this->configuration->checkString(), $this->configuration->rules()->get(Plexity::RULE_NOT_IN))) {
+        if (in_array($this->configuration->checkString(), (array)$this->configuration->rules()->get(Plexity::RULE_NOT_IN))) {
             return false;
         }
         return true;
@@ -246,11 +247,11 @@ class Validator
 
     /**
      * Count the number of occurences of a character or string in a string.
-     * @param array $needles The character/string to count occurences of.
+     * @param array $needles The character/string to count occurrences of.
      * @param string $haystack The string to check against.
-     * @return int The number of occurences.
+     * @return int The number of occurrences.
      */
-    private function countOccurences(array $needles, $haystack)
+    private function countOccurrences(array $needles, $haystack)
     {
         $count = 0;
         foreach ($needles as $char) {
