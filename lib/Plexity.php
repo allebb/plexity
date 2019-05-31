@@ -44,8 +44,8 @@ class Plexity
      * Default collection settings
      */
     private $defaultConfiguration = [
-        self::RULE_UPPER => false,
-        self::RULE_LOWER => false,
+        self::RULE_UPPER => 0,
+        self::RULE_LOWER => 0,
         self::RULE_SPECIAL => 0,
         self::RULE_NUMERIC => 0,
         self::RULE_LENGTH_MIN => 0,
@@ -71,21 +71,23 @@ class Plexity
 
     /**
      * Requires the password to contain upper case characters.
+     * @param int $amount Optional number of required upper case characters (will default to 1)
      * @return \Ballen\Plexity\Plexity
      */
-    public function requireUpperCase()
+    public function requireUpperCase($amount = 1)
     {
-        $this->rules->put(self::RULE_UPPER, true);
+        $this->rules->put(self::RULE_UPPER, $amount);
         return $this;
     }
 
     /**
      * Requires the password to contain lower case characters.
+     * @param int $amount Optional number of required lower case characters (will default to 1)
      * @return \Ballen\Plexity\Plexity
      */
-    public function requireLowerCase()
+    public function requireLowerCase($amount = 1)
     {
-        $this->rules->put(self::RULE_LOWER, true);
+        $this->rules->put(self::RULE_LOWER, $amount);
         return $this;
     }
 

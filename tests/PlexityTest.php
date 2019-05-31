@@ -185,4 +185,34 @@ class PassplexitylTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The length exceeds the maximum length requirements.');
         $password->check('An3akkkk');
     }
+
+    public function testPasswordContainsANumberOfLowercaseCharacters()
+    {
+        $password = new Plexity();
+        $password->requireLowerCase(3);
+        $this->assertTrue($password->check('ABCDEfgh'));
+    }
+
+    public function testPasswordContainsANumberOfLowerCharactersFail()
+    {
+        $password = new Plexity();
+        $password->requireLowerCase(4);
+        $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The string failed to meet the lower case requirements.');
+        $password->check('ABCDEfgh');
+    }
+
+    public function testPasswordContainsANumberOfUppercaseCharacters()
+    {
+        $password = new Plexity();
+        $password->requireUpperCase(5);
+        $this->assertTrue($password->check('ABCDEfgh'));
+    }
+
+    public function testPasswordContainsANumberOfUppercaseCharactersFail()
+    {
+        $password = new Plexity();
+        $password->requireUpperCase(6);
+        $this->setExpectedException('Ballen\Plexity\Exceptions\ValidationException', 'The string failed to meet the upper case requirements.');
+        $password->check('ABCDEfgh');
+    }
 }

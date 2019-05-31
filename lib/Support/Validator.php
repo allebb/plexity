@@ -1,4 +1,5 @@
 <?php
+
 namespace Ballen\Plexity\Support;
 
 use \Ballen\Plexity\Plexity;
@@ -94,7 +95,7 @@ class Validator
      */
     public function checkLowerCase()
     {
-        if ($this->configuration->rules()->get(Plexity::RULE_LOWER)) {
+        if ($this->configuration->rules()->get(Plexity::RULE_LOWER) > 0) {
             if (!$this->validateLowerCase()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the lower case requirements.');
             }
@@ -107,7 +108,7 @@ class Validator
      */
     public function checkUpperCase()
     {
-        if ($this->configuration->rules()->get(Plexity::RULE_UPPER)) {
+        if ($this->configuration->rules()->get(Plexity::RULE_UPPER) > 0) {
             if (!$this->validateUpperCase()) {
                 throw new \Ballen\Plexity\Exceptions\ValidationException('The string failed to meet the upper case requirements.');
             }
@@ -140,6 +141,10 @@ class Validator
         }
     }
 
+    /**
+     * Validates if a string is not in a array (password history database).
+     * @throws \Ballen\Plexity\Exceptions\ValidationException
+     */
     public function checkNotIn()
     {
         if (count($this->configuration->rules()->get(Plexity::RULE_NOT_IN)) > 0) {
@@ -155,7 +160,13 @@ class Validator
      */
     private function validateUpperCase()
     {
-        return (bool) preg_match("/[A-Z]/", $this->configuration->checkString());
+        $occurences = preg_match_all("/[A-Z]/", $this->configuration->checkString());
+
+        if ($occurences >= $this->configuration->rules()->get(Plexity::RULE_UPPER)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -164,7 +175,13 @@ class Validator
      */
     private function validateLowerCase()
     {
-        return (bool) preg_match("/[a-z]/", $this->configuration->checkString());
+        $occurences = preg_match_all("/[a-z]/", $this->configuration->checkString());
+
+        if ($occurences >= $this->configuration->rules()->get(Plexity::RULE_LOWER)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
