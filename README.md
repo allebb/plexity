@@ -24,7 +24,7 @@ Requirements
 
 This library is developed and tested for PHP 5.3+
 
-This library is unit tested against PHP 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2, 7.3 and the nightly builds!
+This library is unit tested against PHP 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.2 and 7.3!
 
 License
 -------
@@ -93,7 +93,7 @@ Tests and coverage
 
 This library is fully unit tested using [PHPUnit](https://phpunit.de/).
 
-I use [TravisCI](https://travis-ci.org/) for continuous integration, which triggers tests for PHP 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.3, 7.3 and the PHP nightly builds every time a commit is pushed.
+I use [TravisCI](https://travis-ci.org/) for continuous integration, which triggers tests for PHP 5.3, 5.4, 5.5, 5.6, 7.0, 7.1, 7.3 and 7.3 every time a commit is pushed.
 
 If you wish to run the tests yourself you should run the following:
 

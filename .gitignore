@@ -1,4 +1,5 @@
 /nbproject
+/.idea
 /vendor
 /report
 composer.phar
