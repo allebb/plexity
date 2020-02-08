@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
+        "php": ">=5.5",
         "ballen/collection": "~1.0"
     },
     "require-dev": {
@@ -21,6 +21,12 @@
     },
     "autoload": {
         "psr-4": {
+            "Ballen\\Plexity\\": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ballen\\Plexity\\Tests\\": "tests/",
             "Ballen\\Plexity\\": "lib/"
         }
     }

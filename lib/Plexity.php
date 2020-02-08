@@ -3,6 +3,7 @@
 namespace Ballen\Plexity;
 
 use Ballen\Collection\Collection;
+use Ballen\Plexity\Interfaces\PasswordHistoryInterface;
 use Ballen\Plexity\Support\Validator;
 
 /**
@@ -52,7 +53,7 @@ class Plexity
         self::RULE_NUMERIC => 0,
         self::RULE_LENGTH_MIN => 0,
         self::RULE_LENGTH_MAX => 0,
-        self::RULE_NOT_IN => [],
+        self::RULE_NOT_IN => null,
     ];
 
     /**
@@ -157,13 +158,13 @@ class Plexity
     }
 
     /**
-     * Requires that the password/string is not found in the collection.
-     * @param array The array of passwords/strings to check against.
+     * Requires that the password/string is not found in a password history collection.
+     * @param PasswordHistoryInterface|array An array of passwords/strings to check against or an implementation of PasswordHistoryInterface.
      * @return Plexity
      */
-    public function notIn(array $array)
+    public function notIn($history)
     {
-        $this->rules->put(self::RULE_NOT_IN, $array);
+        $this->rules->put(self::RULE_NOT_IN, $history);
         return $this;
     }
 

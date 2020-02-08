@@ -2,6 +2,7 @@
 
 namespace Ballen\Plexity\Support;
 
+use Ballen\Plexity\Interfaces\PasswordHistoryInterface;
 use Ballen\Plexity\Plexity;
 use Ballen\Plexity\Exceptions\ValidationException;
 
@@ -22,6 +23,16 @@ class Validator
 {
 
     /**
+     * RegEx for uppercase character detection.
+     */
+    const REGEX_UPPER_CASE = "/[A-Z]/";
+
+    /**
+     * RegEx for lowercase character detection.
+     */
+    const REGEX_LOWER_CASE = "/[a-z]/";
+
+    /**
      * The Plexity object (contains the validation configuration)
      * @var Plexity
      */
@@ -32,7 +43,16 @@ class Validator
      * @var array
      */
     protected $numbers = [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 0
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        0
     ];
 
     /**
@@ -41,9 +61,38 @@ class Validator
      * @var array
      */
     protected $specialCharacters = [
-        ' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '.',
-        '/', ':', ';', '<', '=', '>', '?', '@', '[', ']', '\\', '^', '_', '`',
-        '{', '|', '}', '~',
+        ' ',
+        '!',
+        '"',
+        '#',
+        '$',
+        '%',
+        '&',
+        '\'',
+        '(',
+        ')',
+        '*',
+        '+',
+        ',',
+        '.',
+        '/',
+        ':',
+        ';',
+        '<',
+        '=',
+        '>',
+        '?',
+        '@',
+        '[',
+        ']',
+        '\\',
+        '^',
+        '_',
+        '`',
+        '{',
+        '|',
+        '}',
+        '~',
     ];
 
     /**
@@ -148,11 +197,23 @@ class Validator
      */
     public function checkNotIn()
     {
-        if (count($this->configuration->rules()->get(Plexity::RULE_NOT_IN)) > 0) {
-            if (!$this->validateNotIn()) {
+
+        if ($this->configuration->rules()->get(Plexity::RULE_NOT_IN) === null) {
+            return true;
+        }
+
+        if ($this->configuration->rules()->get(Plexity::RULE_NOT_IN) instanceof PasswordHistoryInterface) {
+            if ($this->validateNotInPasswordHistoryImplementation()) {
                 throw new ValidationException('The string exists in the list of disallowed values requirements.');
             }
         }
+
+        if (is_array($this->configuration->rules()->get(Plexity::RULE_NOT_IN)) && count($this->configuration->rules()->get(Plexity::RULE_NOT_IN)) > 0) {
+            if (!$this->validateNotInArray()) {
+                throw new ValidationException('The string exists in the list of disallowed values requirements.');
+            }
+        }
+
     }
 
     /**
@@ -161,7 +222,7 @@ class Validator
      */
     private function validateUpperCase()
     {
-        $occurences = preg_match_all("/[A-Z]/", $this->configuration->checkString());
+        $occurences = preg_match_all(self::REGEX_UPPER_CASE, $this->configuration->checkString());
 
         if ($occurences >= $this->configuration->rules()->get(Plexity::RULE_UPPER)) {
             return true;
@@ -176,9 +237,9 @@ class Validator
      */
     private function validateLowerCase()
     {
-        $occurences = preg_match_all("/[a-z]/", $this->configuration->checkString());
+        $occurrences = preg_match_all(self::REGEX_LOWER_CASE, $this->configuration->checkString());
 
-        if ($occurences >= $this->configuration->rules()->get(Plexity::RULE_LOWER)) {
+        if ($occurrences >= $this->configuration->rules()->get(Plexity::RULE_LOWER)) {
             return true;
         }
 
@@ -191,7 +252,8 @@ class Validator
      */
     private function validateSpecialCharacters()
     {
-        if ($this->countOccurrences($this->specialCharacters, $this->configuration->checkString()) >= $this->configuration->rules()->get(Plexity::RULE_SPECIAL)) {
+        if ($this->countOccurrences($this->specialCharacters,
+                $this->configuration->checkString()) >= $this->configuration->rules()->get(Plexity::RULE_SPECIAL)) {
             return true;
         }
         return false;
@@ -203,7 +265,8 @@ class Validator
      */
     private function validateNumericCharacters()
     {
-        if ($this->countOccurrences($this->numbers, $this->configuration->checkString()) >= $this->configuration->rules()->get(Plexity::RULE_NUMERIC)) {
+        if ($this->countOccurrences($this->numbers,
+                $this->configuration->checkString()) >= $this->configuration->rules()->get(Plexity::RULE_NUMERIC)) {
             return true;
         }
         return false;
@@ -234,19 +297,29 @@ class Validator
     }
 
     /**
-     * Validates the not_in requirements.
+     * Validates the not_in requirements against a simple array.
      * @return boolean
      */
-    private function validateNotIn()
+    private function validateNotInArray()
     {
-        if (in_array($this->configuration->checkString(), (array)$this->configuration->rules()->get(Plexity::RULE_NOT_IN))) {
+        if (in_array($this->configuration->checkString(),
+            (array)$this->configuration->rules()->get(Plexity::RULE_NOT_IN))) {
             return false;
         }
         return true;
     }
 
     /**
-     * Count the number of occurences of a character or string in a string.
+     * Validates the not_in requirements against an implementation of PasswordHistoryInterface.
+     * @return boolean
+     */
+    private function validateNotInPasswordHistoryImplementation()
+    {
+        return ($this->configuration->rules()->get(Plexity::RULE_NOT_IN))->checkHistory($this->configuration->checkString());
+    }
+
+    /**
+     * Count the number of occurrences of a character or string in a string.
      * @param array $needles The character/string to count occurrences of.
      * @param string $haystack The string to check against.
      * @return int The number of occurrences.

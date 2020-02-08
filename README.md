@@ -17,7 +17,8 @@ This library supports the following kind of complexity settings:
 * Special character containment
 * Minimum/maximum character detection
 * Password age expiry detection
-* Detection of previous use (for a configurable amount of previous uses)
+* Detection of previous use such as against a password history datastore.
+* Ability to add and check against a configurable list of common passwords/words etc.
 
 Requirements
 ------------
@@ -39,7 +40,6 @@ To install the package into your project (assuming you are using the [Composer](
 ```
 composer require ballen/plexity
 ```
-
 
 Alternatively you can manually add this library to your project using the following steps, simply edit your project's ``composer.json`` file and add the following lines (or update your existing ``require`` section with the library like so):
 
@@ -66,9 +66,10 @@ use Ballen\Plexity\Plexity as PasswordValidator;
 
 $password = new PasswordValidator();
 
-$password->requireSpecialCharacters() // We want the password to contain special characters.
-    ->requireUpperCase() // Requires the password to contains upper case characters.
-    ->requireLowerCase() // Requires the password to contains lower case characters.
+$password->requireSpecialCharacters() // We want the password to contain (atleast 1) special characters.
+    //->requireSpecialCharacters(5), // We could also specify a specific number of special characters.
+    ->requireUpperCase() // Requires the password to contains more than one upper case characters.
+    ->requireLowerCase(2) // Requires the password to contains atleast 2 lower case characters.
     ->requireNumericChataters(3); // We want to ensure that the password uses at least 3 numbers!
 
 // An example of passing a password history array, if the password exists in here then we'll disallow it!
@@ -77,7 +78,8 @@ $password->notIn([
     'Ros3bud',
     'mypasSwordh88e8*&|re',
 ]);
-
+// You can optionally pass in an implementation of PasswordHistoryInterface like so:
+//$password->notIn(new CustomPasswordHistoryDatastore()); // Must implement Ballen\Plexity\Interfaces\PasswordHistoryInterface
 
 try {
     $password->check('my_password_string_here');
@@ -93,7 +95,7 @@ Tests and coverage
 
 This library is fully unit tested using [PHPUnit](https://phpunit.de/).
 
-I use [TravisCI](https://travis-ci.org/) for continuous integration, which triggers tests for PHP 5.6, 7.0, 7.1, 7.3 and 7.3 every time a commit is pushed.
+I use [TravisCI](https://travis-ci.org/) for continuous integration, which triggers tests for PHP 5.6, 7.0, 7.1, 7.3 and 7.4 every time a commit is pushed.
 
 If you wish to run the tests yourself you should run the following:
 
