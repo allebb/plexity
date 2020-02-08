@@ -15,7 +15,7 @@ class MD5PasswordHistoryStore implements PasswordHistoryInterface
     /**
      * An array of plain and simple MD5 password hashes.
      * (I HIGHLY RECOMMEND YOU USE STRONG ENCRYPTION IN YOUR REAL WORLD APPLICATIONS THOUGH - THIS IS JUST A VERY SIMPLE IMPLEMENTATION EXAMPLE!!!!!)
-     * @var array
+     * @var array<string>
      */
     private $md5Passwords = [
         'dc647eb65e6711e155375218212b3964', # 'Password'
@@ -24,7 +24,7 @@ class MD5PasswordHistoryStore implements PasswordHistoryInterface
 
     /**
      * Converts the plain password into an MD5 hash before checking against our hashed history array.
-     * @param $plainPassword
+     * @param string $plainPassword
      * @return bool
      */
     private function hashAndCheckHistory($plainPassword)

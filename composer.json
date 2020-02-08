@@ -1,33 +1,39 @@
 {
-    "name": "ballen/plexity",
-    "description": "A password complexity checker library.",
-    "type": "library",
-    "keywords": ["password", "string", "complexity", "rules", "plexity"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Bobby Allen",
-            "email": "ballen@bobbyallen.me",
-            "homepage": "http://bobbyallen.me",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": ">=5.5",
-        "ballen/collection": "~1.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "4.8.*"
-    },
-    "autoload": {
-        "psr-4": {
-            "Ballen\\Plexity\\": "lib/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Ballen\\Plexity\\Tests\\": "tests/",
-            "Ballen\\Plexity\\": "lib/"
-        }
+  "name": "ballen/plexity",
+  "description": "A password complexity checker library.",
+  "type": "library",
+  "keywords": [
+    "password",
+    "string",
+    "complexity",
+    "rules",
+    "plexity"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Bobby Allen",
+      "email": "ballen@bobbyallen.me",
+      "homepage": "http://bobbyallen.me",
+      "role": "Developer"
     }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "ballen/collection": "~1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.8.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ballen\\Plexity\\": "lib/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ballen\\Plexity\\Tests\\": "tests/",
+      "Ballen\\Plexity\\": "lib/"
+    }
+  }
 }

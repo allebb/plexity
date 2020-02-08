@@ -40,7 +40,7 @@ class Validator
 
     /**
      * Numeric values list
-     * @var array
+     * @var array<int>
      */
     protected $numbers = [
         1,
@@ -58,7 +58,7 @@ class Validator
     /**
      * Special Character list
      * @see https://www.owasp.org/index.php/Password_special_characters
-     * @var array
+     * @var array<string>
      */
     protected $specialCharacters = [
         ' ',
@@ -116,6 +116,7 @@ class Validator
     /**
      * Checks the minimum length requirement.
      * @throws ValidationException
+     * @return void
      */
     public function checkMinimumLength()
     {
@@ -129,6 +130,7 @@ class Validator
     /**
      * Checks the minimum maximum length requirement.
      * @throws ValidationException
+     * @return void
      */
     public function checkMaximumLength()
     {
@@ -142,6 +144,7 @@ class Validator
     /**
      * Checks the lowercase character(s) requirement.
      * @throws ValidationException
+     * @return void
      */
     public function checkLowerCase()
     {
@@ -155,6 +158,7 @@ class Validator
     /**
      * Checks the upper case character(s) requirement.
      * @throws ValidationException
+     * @return void
      */
     public function checkUpperCase()
     {
@@ -168,6 +172,7 @@ class Validator
     /**
      * Checks the numeric character(s) requirement.
      * @throws ValidationException
+     * @return void
      */
     public function checkNumericCharacters()
     {
@@ -181,6 +186,7 @@ class Validator
     /**
      * Checks the special character(s) requirement.
      * @throws ValidationException
+     * @return void
      */
     public function checkSpecialCharacters()
     {
@@ -194,12 +200,13 @@ class Validator
     /**
      * Validates if a string is not in a array (password history database).
      * @throws ValidationException
+     * @return void
      */
     public function checkNotIn()
     {
 
         if ($this->configuration->rules()->get(Plexity::RULE_NOT_IN) === null) {
-            return true;
+            return;
         }
 
         if ($this->configuration->rules()->get(Plexity::RULE_NOT_IN) instanceof PasswordHistoryInterface) {
@@ -320,7 +327,7 @@ class Validator
 
     /**
      * Count the number of occurrences of a character or string in a string.
-     * @param array $needles The character/string to count occurrences of.
+     * @param array<mixed> $needles The character/string to count occurrences of.
      * @param string $haystack The string to check against.
      * @return int The number of occurrences.
      */

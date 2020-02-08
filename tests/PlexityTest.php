@@ -1,10 +1,12 @@
 <?php
 
+namespace Ballen\Plexity\Tests;
+
 use Ballen\Plexity\Exceptions\ValidationException;
 use Ballen\Plexity\Plexity;
 use Ballen\Plexity\Tests\Implementations\MD5PasswordHistoryStore;
 
-class PassplexitylTest extends PHPUnit_Framework_TestCase
+class PlexityTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testSuccessfulRuleSet()

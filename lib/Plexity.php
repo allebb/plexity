@@ -44,7 +44,7 @@ class Plexity
 
     /**
      * Default collection settings
-     * @var array
+     * @var array<string,mixed>
      */
     private $defaultConfiguration = [
         self::RULE_UPPER => 0,
@@ -159,7 +159,7 @@ class Plexity
 
     /**
      * Requires that the password/string is not found in a password history collection.
-     * @param PasswordHistoryInterface|array An array of passwords/strings to check against or an implementation of PasswordHistoryInterface.
+     * @param array<string>|PasswordHistoryInterface $history An array of passwords/strings to check against or an implementation of PasswordHistoryInterface.
      * @return Plexity
      */
     public function notIn($history)
