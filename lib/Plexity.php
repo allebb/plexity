@@ -60,7 +60,7 @@ class Plexity
      * The validator instance.
      * @var Support\Validator
      */
-    private $validator;
+    public $validator;
 
     /**
      * Instaniate a new instance of the Plexity class.
