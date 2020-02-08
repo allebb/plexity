@@ -115,8 +115,8 @@ class Validator
 
     /**
      * Checks the minimum length requirement.
-     * @throws ValidationException
      * @return void
+     * @throws ValidationException
      */
     public function checkMinimumLength()
     {
@@ -129,8 +129,8 @@ class Validator
 
     /**
      * Checks the minimum maximum length requirement.
-     * @throws ValidationException
      * @return void
+     * @throws ValidationException
      */
     public function checkMaximumLength()
     {
@@ -143,8 +143,8 @@ class Validator
 
     /**
      * Checks the lowercase character(s) requirement.
-     * @throws ValidationException
      * @return void
+     * @throws ValidationException
      */
     public function checkLowerCase()
     {
@@ -157,8 +157,8 @@ class Validator
 
     /**
      * Checks the upper case character(s) requirement.
-     * @throws ValidationException
      * @return void
+     * @throws ValidationException
      */
     public function checkUpperCase()
     {
@@ -171,8 +171,8 @@ class Validator
 
     /**
      * Checks the numeric character(s) requirement.
-     * @throws ValidationException
      * @return void
+     * @throws ValidationException
      */
     public function checkNumericCharacters()
     {
@@ -185,8 +185,8 @@ class Validator
 
     /**
      * Checks the special character(s) requirement.
-     * @throws ValidationException
      * @return void
+     * @throws ValidationException
      */
     public function checkSpecialCharacters()
     {
@@ -199,8 +199,8 @@ class Validator
 
     /**
      * Validates if a string is not in a array (password history database).
-     * @throws ValidationException
      * @return void
+     * @throws ValidationException
      */
     public function checkNotIn()
     {
@@ -210,15 +210,11 @@ class Validator
         }
 
         if ($this->configuration->rules()->get(Plexity::RULE_NOT_IN) instanceof PasswordHistoryInterface) {
-            if ($this->validateNotInPasswordHistoryImplementation()) {
-                throw new ValidationException('The string exists in the list of disallowed values requirements.');
-            }
+            $this->validateNotInPasswordHistoryImplementation();
         }
 
         if (is_array($this->configuration->rules()->get(Plexity::RULE_NOT_IN)) && count($this->configuration->rules()->get(Plexity::RULE_NOT_IN)) > 0) {
-            if (!$this->validateNotInArray()) {
-                throw new ValidationException('The string exists in the list of disallowed values requirements.');
-            }
+            $this->validateNotInArray();
         }
 
     }
@@ -305,24 +301,27 @@ class Validator
 
     /**
      * Validates the not_in requirements against a simple array.
-     * @return boolean
+     * @return void
+     * @throws ValidationException
      */
     private function validateNotInArray()
     {
         if (in_array($this->configuration->checkString(),
             (array)$this->configuration->rules()->get(Plexity::RULE_NOT_IN))) {
-            return false;
+            throw new ValidationException('The string exists in the list of disallowed values requirements.');
         }
-        return true;
     }
 
     /**
      * Validates the not_in requirements against an implementation of PasswordHistoryInterface.
-     * @return boolean
+     * @return void
+     * @throws ValidationException
      */
     private function validateNotInPasswordHistoryImplementation()
     {
-        return ($this->configuration->rules()->get(Plexity::RULE_NOT_IN))->checkHistory($this->configuration->checkString());
+        if (($this->configuration->rules()->get(Plexity::RULE_NOT_IN))->checkHistory($this->configuration->checkString())) {
+            throw new ValidationException('The string exists in the list of disallowed values requirements.');
+        }
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Ballen\Plexity\Tests;
 
-use Ballen\Plexity\Exceptions\ValidationException;
 use Ballen\Plexity\Plexity;
 use Ballen\Plexity\Tests\Implementations\MD5PasswordHistoryStore;
 
