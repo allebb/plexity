@@ -1,10 +1,16 @@
 filter:
-    paths: [lib/*]
-    excluded_paths: [vendor/*, examples/*, tests/*]
+  paths: [lib/*]
+  excluded_paths: [vendor/*, examples/*, tests/*]
 checks:
-    php: true
+  php: true
 tools:
-    php_code_sniffer:
-        config:
-            standard: "PSR2"
-    external_code_coverage: true
+  php_code_sniffer:
+    config:
+      standard: "PSR2"
+  external_code_coverage: true
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
