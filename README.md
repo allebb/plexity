@@ -22,7 +22,7 @@ This library supports the following kind of complexity settings:
 Requirements
 ------------
 
-This library is developed and tested for PHP 5.3+
+This library is developed and tested for PHP 5.4+
 
 This library is unit tested against PHP 5.6, 7.0, 7.1, 7.2 and 7.3!
 
@@ -43,7 +43,7 @@ composer require ballen/plexity
 
 Alternatively you can manually add this library to your project using the following steps, simply edit your project's ``composer.json`` file and add the following lines (or update your existing ``require`` section with the library like so):
 
-```php
+```json
 "require": {
         "ballen/plexity": "~1.0"
 }
