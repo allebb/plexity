@@ -25,7 +25,7 @@ Requirements
 
 This library is developed and tested for PHP 5.4+
 
-This library is unit tested against PHP 5.6, 7.0, 7.1, 7.2 and 7.3!
+This library is unit tested against PHP 5.6, 7.0, 7.1, 7.2, 7.3 and 7.4!
 
 License
 -------
