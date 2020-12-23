@@ -11,7 +11,7 @@ namespace Ballen\Plexity\Exceptions;
  *
  * @author Bobby Allen <ballen@bobbyallen.me>
  * @license http://opensource.org/licenses/MIT
- * @link https://github.com/allebb/passplexity
+ * @link https://github.com/allebb/plexity
  * @link https://bobbyallen.me
  *
  */

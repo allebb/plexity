@@ -1,7 +1,7 @@
 # Plexity
 
-[![Build Status](https://travis-ci.org/allebb/plexity.svg)](https://travis-ci.org/allebb/plexity)
-[![Code Coverage](https://scrutinizer-ci.com/g/allebb/plexity/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/allebb/plexity/?branch=master)
+[![Build](https://github.com/allebb/plexity/workflows/build/badge.svg)](https://github.com/allebb/plexity/actions)
+[![Code Coverage](https://codecov.io/gh/allebb/plexity/branch/master/graph/badge.svg)](https://codecov.io/gh/allebb/plexity)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/allebb/plexity/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/allebb/plexity/?branch=master)
 [![Code Climate](https://codeclimate.com/github/allebb/plexity/badges/gpa.svg)](https://codeclimate.com/github/allebb/plexity)
 [![Latest Stable Version](https://poser.pugx.org/ballen/plexity/v/stable)](https://packagist.org/packages/ballen/plexity)
@@ -23,9 +23,9 @@ This library supports the following kind of complexity settings:
 Requirements
 ------------
 
-This library is developed and tested for PHP 5.4+
+This library is developed and tested against PHP 7.3, 7.4 and 8.0!
 
-This library is unit tested against PHP 5.6, 7.0, 7.1, 7.2, 7.3 and 7.4!
+If you need to use an older version of PHP, you should instead install the 1.x version of this library (see below for details).
 
 License
 -------
@@ -41,18 +41,10 @@ To install the package into your project (assuming you are using the [Composer](
 composer require ballen/plexity
 ```
 
-Alternatively you can manually add this library to your project using the following steps, simply edit your project's ``composer.json`` file and add the following lines (or update your existing ``require`` section with the library like so):
+**If you need to use an older version of PHP, version 1.x.x supports PHP 5.6, 7.0, 7.1 and 7.2, you can install this version using Composer with this command instead:**
 
-```json
-"require": {
-        "ballen/plexity": "~1.0"
-}
-```
-
-Then install the package like so:
-
-```
-composer update ballen/plexity --no-dev
+```shell
+composer require ballen/plexity ^1.0
 ```
 
 Examples
@@ -95,7 +87,7 @@ Tests and coverage
 
 This library is fully unit tested using [PHPUnit](https://phpunit.de/).
 
-I use [TravisCI](https://travis-ci.org/) for continuous integration, which triggers tests for PHP 5.6, 7.0, 7.1, 7.3 and 7.4 every time a commit is pushed.
+I use [GitHub Actions](https://github.com/) for continuous integration, which triggers tests for PHP 7.3, 7.4 and 8.0 every time a commit is pushed.
 
 If you wish to run the tests yourself you should run the following:
 
