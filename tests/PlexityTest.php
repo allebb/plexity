@@ -59,6 +59,13 @@ class PlexityTest extends TestCase
         $this->assertTrue($password->check('Trff'));
     }
 
+    public function testHyphenIsAcceptedAsASpecialCharacter()
+    {
+        $password = new Plexity();
+        $password->requireSpecialCharacters(1);
+        $this->assertTrue($password->check('-'));
+    }
+
     public function testInvalidLenghtOnMinimum()
     {
         $password = new Plexity();
