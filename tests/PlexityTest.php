@@ -136,6 +136,12 @@ class PlexityTest extends TestCase
         $this->assertTrue($password->check('A#4%%^'));
     }
 
+    public function testPasswordHasNumericCharactersWithFixedMethod(){
+        $password = new Plexity();
+        $password->requireNumericCharacters();
+        $this->assertTrue($password->check('A#4%%^'));
+    }
+
     public function testPasswordNotHasNumericCharacters()
     {
         $password = new Plexity();
@@ -158,6 +164,17 @@ class PlexityTest extends TestCase
     {
         $password = new Plexity();
         $password->requireNumericChataters(5);
+        $this->expectException(
+            'Ballen\Plexity\Exceptions\ValidationException',
+            'The string failed to meet the numeric character requirements.'
+        );
+        $password->check('An3%a*pl3');
+    }
+
+    public function testPasswordNotHasAmountOfNumericCharsUsingFixedMethodName()
+    {
+        $password = new Plexity();
+        $password->requireNumericCharacters(5);
         $this->expectException(
             'Ballen\Plexity\Exceptions\ValidationException',
             'The string failed to meet the numeric character requirements.'

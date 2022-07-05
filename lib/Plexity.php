@@ -107,10 +107,20 @@ class Plexity
 
     /**
      * Requires the password to contain numeric characters.
-     * @param int $amount Optional amount of numeric characters the string must atleast contain.
-     * @return Plexity
+     * @deprecated See bug report: https://github.com/allebb/plexity/issues/4
+     * @note Use the requireNumericCharacters() method instead, proxied this method for now to prevent broken code but will be removed in a future release.
      */
     public function requireNumericChataters($amount = 1)
+    {
+        return $this->requireNumericCharacters($amount);
+    }
+
+    /**
+     * Requires the password to contain numeric characters.
+     * @param int $amount Optional amount of numeric characters the string must at least contain.
+     * @return Plexity
+     */
+    public function requireNumericCharacters($amount = 1)
     {
         $this->rules->put(self::RULE_NUMERIC, $amount);
         return $this;
