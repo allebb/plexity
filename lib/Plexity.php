@@ -65,11 +65,13 @@ class Plexity
     /**
      * Instaniate a new instance of the Plexity class.
      */
-    public function __construct()
+    public function __construct(array $args=null)
     {
         $this->rules = new Collection($this->defaultConfiguration);
 
         $this->validator = new Validator;
+        if(isset($args['locale']))
+            $this->validator->setLocale(ucwords(strtolower($args['locale'])));
     }
 
     /**

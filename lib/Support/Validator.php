@@ -39,6 +39,16 @@ class Validator
     private $configuration;
 
     /**
+     * Message list of defined iso code
+     */
+    private $locale = 'en';
+
+    /**
+     * messages list
+     */
+    private $messages;
+
+    /**
      * Numeric values list
      * @var array<int>
      */
@@ -103,6 +113,13 @@ class Validator
      */
     public function validate(Plexity $configuration)
     {
+
+        $tmpMessageObj = 'Ballen\\Plexity\\Data\\Locale\\Validator\\' . $this->locale;
+        if(!class_exists($tmpMessageObj))
+            throw new ValidationException('Locale class not found.');
+
+        $this->messages = $tmpMessageObj::$messages;
+
         $this->configuration = $configuration;
         $this->checkMinimumLength();
         $this->checkMaximumLength();
@@ -137,7 +154,7 @@ class Validator
     {
         if ($this->configuration->rules()->get(Plexity::RULE_LENGTH_MAX) > 0) {
             if (!$this->validateLengthMax()) {
-                throw new ValidationException('The length exceeds the maximum length requirements.');
+                throw new ValidationException($this->messages[__FUNCTION__]);
             }
         }
     }
@@ -151,7 +168,7 @@ class Validator
     {
         if ($this->configuration->rules()->get(Plexity::RULE_LOWER) > 0) {
             if (!$this->validateLowerCase()) {
-                throw new ValidationException('The string failed to meet the lower case requirements.');
+                throw new ValidationException($this->messages[__FUNCTION__]);
             }
         }
     }
@@ -165,7 +182,7 @@ class Validator
     {
         if ($this->configuration->rules()->get(Plexity::RULE_UPPER) > 0) {
             if (!$this->validateUpperCase()) {
-                throw new ValidationException('The string failed to meet the upper case requirements.');
+                throw new ValidationException($this->messages[__FUNCTION__]);
             }
         }
     }
@@ -179,7 +196,7 @@ class Validator
     {
         if ($this->configuration->rules()->get(Plexity::RULE_NUMERIC) > 0) {
             if (!$this->validateNumericCharacters()) {
-                throw new ValidationException('The string failed to meet the numeric character requirements.');
+                throw new ValidationException($this->messages[__FUNCTION__]);
             }
         }
     }
@@ -193,7 +210,7 @@ class Validator
     {
         if ($this->configuration->rules()->get(Plexity::RULE_SPECIAL) > 0) {
             if (!$this->validateSpecialCharacters()) {
-                throw new ValidationException('The string failed to meet the special character requirements.');
+                throw new ValidationException($this->messages[__FUNCTION__]);
             }
         }
     }
@@ -309,7 +326,7 @@ class Validator
     {
         if (in_array($this->configuration->checkString(),
             (array)$this->configuration->rules()->get(Plexity::RULE_NOT_IN))) {
-            throw new ValidationException('The string exists in the list of disallowed values requirements.');
+            throw new ValidationException($this->messages[__FUNCTION__]);
         }
     }
 
@@ -321,7 +338,7 @@ class Validator
     private function validateNotInPasswordHistoryImplementation()
     {
         if (($this->configuration->rules()->get(Plexity::RULE_NOT_IN))->checkHistory($this->configuration->checkString())) {
-            throw new ValidationException('The string exists in the list of disallowed values requirements.');
+            throw new ValidationException($this->messages[__FUNCTION__]);
         }
     }
 
@@ -338,5 +355,14 @@ class Validator
             $count += substr_count($haystack, $char);
         }
         return $count;
+    }
+
+    /**
+     * Defines the locale property.
+     * @param string $isoCode This data refers to the language ISO 639-1 Code.
+     * @return void
+     */
+    public function setLocale(string $isoCode) {
+        $this->locale = $isoCode;
     }
 }
