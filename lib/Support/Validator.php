@@ -111,6 +111,7 @@ class Validator
         $this->checkNumericCharacters();
         $this->checkSpecialCharacters();
         $this->checkNotIn();
+        $this->checkNotHaving();
         return true;
     }
 
@@ -216,6 +217,24 @@ class Validator
 
         if (is_array($this->configuration->rules()->get(Plexity::RULE_NOT_IN)) && count($this->configuration->rules()->get(Plexity::RULE_NOT_IN)) > 0) {
             $this->validateNotInArray();
+        }
+
+    }
+
+    /**
+     * Validates if a string does not contain any words from the provided array.
+     * @return void
+     * @throws ValidationException
+     */
+    public function checkNotHaving()
+    {
+
+        if ($this->configuration->rules()->get(Plexity::RULE_NOT_HAVING) === null) {
+            return;
+        }
+
+        if (is_array($this->configuration->rules()->get(Plexity::RULE_NOT_HAVING)) && count($this->configuration->rules()->get(Plexity::RULE_NOT_HAVING)) > 0) {
+            $this->validateNotHaving();
         }
 
     }
@@ -338,5 +357,19 @@ class Validator
             $count += substr_count($haystack, $char);
         }
         return $count;
+    }
+
+    /**
+     * Validates the not_having requirements against a simple array.
+     * @return void
+     * @throws ValidationException
+     */
+    private function validateNotHaving()
+    {
+        foreach((array)$this->configuration->rules()->get(Plexity::RULE_NOT_HAVING) as $needle){
+            if ( stripos($this->configuration->checkString() , $needle) !== false) {
+                throw new ValidationException('The string contains word from the list of disallowed values requirements.');
+            }
+        }
     }
 }

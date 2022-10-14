@@ -5,6 +5,7 @@ namespace Ballen\Plexity;
 use Ballen\Collection\Collection;
 use Ballen\Plexity\Interfaces\PasswordHistoryInterface;
 use Ballen\Plexity\Support\Validator;
+use InvalidArgumentException;
 
 /**
  * Plexity
@@ -22,17 +23,18 @@ use Ballen\Plexity\Support\Validator;
 class Plexity
 {
 
-    const RULE_UPPER = 'upper';
-    const RULE_LOWER = 'lower';
-    const RULE_SPECIAL = 'special';
-    const RULE_NUMERIC = 'numeric';
-    const RULE_LENGTH_MIN = 'length_min';
-    const RULE_LENGTH_MAX = 'length_max';
-    const RULE_NOT_IN = 'not_in';
+    public const RULE_UPPER = 'upper';
+    public const RULE_LOWER = 'lower';
+    public const RULE_SPECIAL = 'special';
+    public const RULE_NUMERIC = 'numeric';
+    public const RULE_LENGTH_MIN = 'length_min';
+    public const RULE_LENGTH_MAX = 'length_max';
+    public const RULE_NOT_IN = 'not_in';
+    public const RULE_NOT_HAVING = 'not_having';
 
     /**
      * The configured list of rules for the object.
-     * @var \Ballen\Collection\Collection
+     * @var Collection
      */
     private $rules;
 
@@ -54,6 +56,7 @@ class Plexity
         self::RULE_LENGTH_MIN => 0,
         self::RULE_LENGTH_MAX => 0,
         self::RULE_NOT_IN => null,
+        self::RULE_NOT_HAVING => null,
     ];
 
     /**
@@ -69,7 +72,7 @@ class Plexity
     {
         $this->rules = new Collection($this->defaultConfiguration);
 
-        $this->validator = new Validator;
+        $this->validator = new Validator();
     }
 
     /**
@@ -134,7 +137,7 @@ class Plexity
     public function minimumLength($minLength)
     {
         if (!is_int($minLength)) {
-            throw new \InvalidArgumentException('The minimum length value must be of type integer.');
+            throw new InvalidArgumentException('The minimum length value must be of type integer.');
         }
         $this->rules->put(self::RULE_LENGTH_MIN, $minLength);
         return $this;
@@ -148,7 +151,7 @@ class Plexity
     public function maximumLength($maxLength)
     {
         if (!is_int($maxLength)) {
-            throw new \InvalidArgumentException('The maximum length value must be of type integer.');
+            throw new InvalidArgumentException('The maximum length value must be of type integer.');
         }
         $this->rules->put(self::RULE_LENGTH_MAX, $maxLength);
         return $this;
@@ -175,6 +178,17 @@ class Plexity
     public function notIn($history)
     {
         $this->rules->put(self::RULE_NOT_IN, $history);
+        return $this;
+    }
+
+    /**
+     * Requires that the password/string doesn't contain any of the provided strings. Check is case-insensitive.
+     * @param array<string> $stack An array of strings to check against.
+     * @return Plexity
+     */
+    public function notHaving($stack)
+    {
+        $this->rules->put(self::RULE_NOT_HAVING, $stack);
         return $this;
     }
 
