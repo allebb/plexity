@@ -302,4 +302,22 @@ class PlexityTest extends TestCase
         $password->notIn($passwordHistoryStore);
         $this->assertTrue($password->check('Bingo!'));
     }
+
+    public function testPasswordNotHavingWords()
+    {
+        $password = new Plexity();
+        $password->notHaving(['sol', 'red', 'joe', 'Pot']);
+        $this->assertTrue($password->check('S0l7y5'));
+    }
+
+    public function testPasswordNotHavingWordsFail()
+    {
+        $password = new Plexity();
+        $password->notHaving(['sol', 'red', 'joe', 'Pot']);
+        $this->expectException(
+            'Ballen\Plexity\Exceptions\ValidationException',
+            'The string contains word from the list of disallowed values requirements.'
+        );
+        $password->check('%tRedRig7');
+    }
 }
